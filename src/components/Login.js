@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../providers/UserProvider'
 import { auth, firestore } from '../firebase/config'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 
 const Login = () => {
 
     const { setCurrentUser } = useContext(UserContext);
+    const history = useHistory();
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -19,8 +20,9 @@ const Login = () => {
                     name: user.data().name,
                     email: userAuth.user.email,
                 })
+								
 								if (user.data().role === "admin"){
-									<Link to="/login" />
+									history.push("/admin");
 									console.log("Welcome admin")
 									return <Redirect to="/admin" />
 
@@ -39,7 +41,7 @@ const Login = () => {
             password = e.target.value
         }
     }
-
+		
 
     return (
         <div className="loginsignup-form">

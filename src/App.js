@@ -9,7 +9,9 @@ import Footer from './components/Footer'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Admin from './components/Admin'
+import Recruiter from "./components/Recruiter"
 import { UserContext } from './providers/UserProvider'
+import 'react-toolbox/lib/table';
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={SignUp}/>
       <Route path="/admin" component={Admin}/>
+      <Route path="/recruiter" component={Recruiter}/>
     </div>
     
   return (

@@ -102,3 +102,19 @@ a{
   .fa-20px{
     font-size: 20px;
   }
+
+.recruiterTitle {
+  position: absolute;
+  left: 95px;
+}
+
+.addJobBtn {
+  position: absolute;
+  left: 1125px;
+  top: 100px;
+}
+
+.ReactTable {
+  position: absolute;
+  top: 50px;
+}
