@@ -47,7 +47,7 @@ const SignUp = () => {
 							</div>   
 							<div className="form-group">     
 											<label htmlFor="password-sign-up">Password</label>
-											<input onChange={handleChange} className="form-control" type="text" id="password-sign-up" name="password-sign-up" placeholder="Enter Your Password"/>
+											<input onChange={handleChange} className="form-control" type="password" id="password-sign-up" name="password-sign-up" placeholder="Enter Your Password"/>
 							</div>
 							<div className="form-group">     
 											<button className="btn btn-success">Sign up</button>

@@ -4,10 +4,12 @@ import { auth, firestore } from '../firebase/config'
 import { Link, Redirect, useHistory } from 'react-router-dom'
 
 
+
 const Login = () => {
 
     const { setCurrentUser } = useContext(UserContext);
     const history = useHistory();
+    var userRole;
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -19,16 +21,24 @@ const Login = () => {
                 setCurrentUser({
                     name: user.data().name,
                     email: userAuth.user.email,
-                })
-								
-								if (user.data().role === "admin"){
-									history.push("/admin");
-									console.log("Welcome admin")
-									return <Redirect to="/admin" />
+                    userRole: user.data().role,
+                })	
+                userRole = user.data().role
+                console.log(userRole)		
+                if (user.data().role === "admin"){
+                    history.push("/admin");
+                    //console.log("Welcome admin")
+                    //return <Redirect to="/admin" />
 
-								} else {
-									console.log("Not authorized")
-								}
+                } else if (user.data().role === "hr") {
+                    history.push("/recruiter");
+                    console.log("Not authorized")
+                } else if (user.data().role === "interviewer") {
+                    history.push("/interviewer");
+                    console.log("Not authorized")
+                } else {
+                    history.push("/")
+                }
             })
         })
 
@@ -41,8 +51,8 @@ const Login = () => {
             password = e.target.value
         }
     }
-		
-
+	
+    console.log(userRole);
     return (
         <div className="loginsignup-form">
             <h1 className="text-center">Log in</h1>

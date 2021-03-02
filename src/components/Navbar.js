@@ -16,6 +16,7 @@ const Header = () => {
         <Navbar bg="light" variant="light">
         <Navbar.Brand href="#home">Awesome Recruiter</Navbar.Brand>
         <Nav className="mr-auto navLinks">
+            {userName}
             {links}
         </Nav>
       </Navbar>

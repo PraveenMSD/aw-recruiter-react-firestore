@@ -118,3 +118,36 @@ a{
   position: absolute;
   top: 50px;
 }
+
+.applyCandidateJob {
+  position: absolute;
+  left: 150px;
+  top: 200px;
+}
+
+.jobSelectDD {
+  position: absolute;
+  top: 202px;
+  left: 50px;
+  height: 5%;
+}
+
+.candidateReactTable {
+  position: absolute;
+  left: 280px;
+  top: 10px;
+  width: 70%;
+}
+
+.applyTitle {
+  position: absolute;
+  top: 135px;
+  left: 30px;
+}
+
+.assignCandidateReactTable {
+  position: absolute;
+  left: 280px;
+  top: 50px;
+  width: 60%;
+}

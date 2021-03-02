@@ -16,6 +16,7 @@ const Recruiter = () => {
 	let [totalopenings, setTotalOpenings] = useState('');
 	let [jobstatus, setJobStatus] = useState('');
 	let [entrylevel, setEntryLevel] = useState('');
+	const offersRef = firestore.collection('jobs');
 
 	const handleSubmit = (e, jobtitle, totalopenings, jobstatus, entrylevel) => {
 		e.preventDefault();
@@ -41,15 +42,23 @@ const Recruiter = () => {
 
 	useEffect(() => {
 		(async()=>{
-			console.log("jobs");
 			await firestore.collection('jobs').get()
 			.then((snapshot) => {
 				console.log(snapshot);
 				var data = []
 				snapshot.docs.map((doc) => {
-					data.push(doc.data())
+					console.log(doc.id)
+
+					var view=(
+						<div className="text-center h-4"><button type='button' onClick={() => handleDelete(doc.id)}>
+							&#10005;
+						</button></div>
+					)
+
+					data.push({...doc.data(), id: doc.id, view})
 					setJobDetails([...data]);
 					console.log(jobsDetails);
+		
 				});
 			})
 			.catch((err) => {
@@ -58,7 +67,10 @@ const Recruiter = () => {
 		 })();
 	},[]);
 	
-
+	const handleDelete = id => {
+		offersRef.doc(id)
+		.delete()
+	};
 
 
 	const BootstrapModal = () => (
@@ -103,7 +115,20 @@ const Recruiter = () => {
 		</div>
 	)
 
+
 	const jobDetailsTablecolumns = [
+		{
+			Header: () => (
+				<div className="text-center font-weight-bold">
+					Job Title
+				</div>
+			),
+			accessor: 'id',
+			className: 'font',
+			width: 250,
+			show: false,
+			Cell: row => <div className="text-center h-4">{row.value}</div>,
+		},
 		{
 			Header: () => (
 				<div className="text-center font-weight-bold">
@@ -148,6 +173,17 @@ const Recruiter = () => {
 			width: 250,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
+		{
+			Header: () => (
+				<div className="text-center font-weight-bold">
+					Action
+				</div>
+			),
+			accessor: 'view',
+			filterable: false,
+			width: 250,
+			// Cell: row => {row.value}
+		}
 	];
 
 
