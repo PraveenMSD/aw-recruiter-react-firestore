@@ -10,33 +10,59 @@ const Candidates = () => {
     const [jobAssignTitle, setAssignJobTitle] = useState('');
     const {currentUser} = useContext(UserContext);
     var userEmail = currentUser?.email || '';
+	const [disabled, setDisabled] = useState(false);
 
+	//onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle)} , onClick={(e) => onBtnClick(e, document.data().jobtitle)}
       useEffect(() => {
-        firestore.collection('jobs').get()
-          .then(response => {
-            const fetchedJobs = [];
-            response.docs.forEach(document => {
-              const fetchedJob = {
-                id: document.id,
-                title: document.data().jobtitle,
-                openings: document.data().totalopenings,
-                status: document.data().jobstatus,
-                level: document.data().entrylevel
-              };
-              fetchedJobs.push(fetchedJob);
-            });
-            setJobs(fetchedJobs);
-          })
+		getJobsForCandidates();
       }, []);
     
-      console.log(jobs)
+      
 
-      const handleSubmit = (e, userEmail, jobAssignTitle) => {
+
+	  const getJobsForCandidates = () => {
+		firestore.collection('jobs').get()
+		.then(response => {
+		  const fetchedJobs = [];
+		  response.docs.forEach(document => {
+			const fetchedJob = {
+			  id: document.id,
+			  title: document.data().jobtitle,
+			  openings: document.data().totalopenings,
+			  status: document.data().jobstatus,
+			  level: document.data().entrylevel,
+			  apply: (
+				  <button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle, document.id, document.data().totalopenings)} >Apply</button>
+			  )
+			};
+			fetchedJobs.push(fetchedJob);
+		  });
+		  setJobs(fetchedJobs);
+		})
+	  }
+
+	  console.log(jobs)
+
+	  const decrementJobOpeningOnApply = (jobId, openingss) => {
+		console.log(jobId);
+		console.log(parseInt(openingss -1 ))
+		  firestore.collection('jobs')
+		  .doc(jobId)
+		  .update({totalopenings: parseInt(openingss -1)})
+	  }
+
+      const handleSubmit = (e, userEmail, title, jobId, openingss) => {
 		e.preventDefault();
-		firestore.collection('candidates')
-			.doc()
-			.set({userEmail ,jobAssignTitle })
-			.catch((err) => { console.log(err) })
+		document.getElementById(title).disabled=true;
+		console.log(userEmail);
+		console.log(title);
+		
+		decrementJobOpeningOnApply(jobId, openingss);
+		
+		//firestore.collection('candidates')
+			// .doc()
+			// .set({userEmail ,title })
+			// .catch((err) => { console.log(err) })
 	}
 
     const handleChange = async (e) => {
@@ -53,7 +79,7 @@ const Candidates = () => {
 			),
 			accessor: 'title',
 			className: 'font',
-			width: 250,
+			width: 140,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
 		{
@@ -64,7 +90,7 @@ const Candidates = () => {
 			),
 			accessor: 'openings',
 			className: 'font',
-			width: 250,
+			width: 140,
 			Cell: row => <div className="text-center h-6">{row.value}</div>,
 		},
 		{
@@ -75,7 +101,7 @@ const Candidates = () => {
 			),
 			accessor: 'status',
 			className: 'px-4 py-3 text-sm',
-			width: 250,
+			width: 140,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
 		{
@@ -88,6 +114,17 @@ const Candidates = () => {
 			filterable: false,
 			width: 250,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
+		},
+		{
+			Header: () => (
+				<div className="text-center font-weight-bold">
+					Apply
+				</div>
+			),
+			accessor: 'apply',
+			filterable: false,
+			width: 100,
+			//Cell: row => <div className="text-center h-4"><button className="btn btn-success" type="submit">Apply</button></div>,
 		}
 	];
 
@@ -95,7 +132,7 @@ const Candidates = () => {
         <div>
             <h6 className="applyTitle">{`${userEmail},select the job title and click apply`}</h6>
 
-            <form onSubmit={(e) => {
+            {/* <form onSubmit={(e) => {
                 handleSubmit(e, userEmail, jobAssignTitle)
             }}>
                 <select className="jobSelectDD" onChange={(e) => handleChange(e)}>
@@ -106,7 +143,7 @@ const Candidates = () => {
                 <div className="form-group text-center">
                     <button className="btn btn-success applyCandidateJob" type="submit">Apply</button>
                 </div>
-            </form>
+            </form> */}
 
             <div className="container">
 			<ReactTable

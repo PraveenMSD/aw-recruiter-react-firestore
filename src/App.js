@@ -15,6 +15,7 @@ import Assigncandidates from "./components/Assigncandidates"
 import Candidates from './components/Candidates'
 import Candidatestatus from './components/Candidatestatus'
 import { UserContext } from './providers/UserProvider'
+import { UserProvider } from './providers/UserProvider'
 import 'react-toolbox/lib/table';
 
 function App() {
@@ -41,10 +42,12 @@ function App() {
     console.log(currentUser?.role);
   return (
     <BrowserRouter>
-      <Header/>
-      <br/><br/>
-      {jsx}
-      <Footer />
+      <UserProvider>
+        <Header/>
+        <br/><br/>
+        {jsx}
+        <Footer />
+      </UserProvider>  
     </BrowserRouter>
   );
 }

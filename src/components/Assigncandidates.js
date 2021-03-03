@@ -8,69 +8,76 @@ const Assigncandidates = () => {
 
   const [appliedCandidates, setCandidate] = useState([]);
   const [assignInterviewer, setInterviewer] = useState([]);
+  const [assignInterviewerName, setInterviewerName] = useState([]);
   const [candidateAssignInterviewer, setAssignInterviewer] = useState('');
   const { currentUser } = useContext(UserContext);
   var userEmail = currentUser?.email || '';
   var value = 'initial'
 
   useEffect(() => {
-    getCandidates();
     getInterviewer();
-  },[]);
+  }, []);
 
-  console.log(appliedCandidates)
 
-  const getCandidates = () => {
+
+  const getCandidates = (fetchedUsers) => {
     firestore.collection('candidates').get()
       .then(response => {
         const fetchedCandidates = [];
+        console.log("Length", fetchedUsers.length);
         response.docs.forEach(document => {
           const fetchedCandidate = {
             id: document.id,
             title: document.data().userEmail,
             openings: document.data().jobAssignTitle,
+            assignedTo: document.data().interviewer,
             select: (
-              <div className="text-center h-6">
-                <select onClick={(e) => handleChange(e, document.id)}>
-                  {assignInterviewer.length !== 0 && assignInterviewer.map((data) => (
-                    <option id="selectedValue" name="selectedValue" value={data.name}>{data.name}</option>)
-                  )}
-                </select>
-              </div>
+              <select onClick={(e) => handleChange(e, document.id)}>
+                {fetchedUsers.length !== 0 && fetchedUsers.map((data) => (
+                  <option 
+                    id="selectedValue" 
+                    name="selectedValue" 
+                    value={data.name}
+                    >
+                    {data.name}
+                  </option>)
+                )}
+              </select>
             )
           };
           fetchedCandidates.push(fetchedCandidate);
         });
+
         setCandidate(fetchedCandidates);
-    })
+      })
   }
+
 
   const getInterviewer = () => {
     firestore.collection('users').where('role', '==', "interviewer").get()
-    .then(response => {
-      const fetchedUsers = [];
-      response.docs.forEach(document => {
-        const fetchedUser = {
-          id: document.id,
-          name: document.data().name,
-          role: document.data().role,
-        };
-        fetchedUsers.push(fetchedUser);
-      });
-      setInterviewer(fetchedUsers);
-    })
+      .then(response => {
+        const fetchedUsers = [];
+        response.docs.forEach(document => {
+          const fetchedUser = {
+            id: document.id,
+            name: document.data().name,
+            role: document.data().role,
+          };
+          fetchedUsers.push(fetchedUser);
+        });
+        // setInterviewer(fetchedUsers);
+        getCandidates(fetchedUsers);
+      })
   }
 
-  console.log(assignInterviewer)
 
   const handleChange = async (e, id) => {
-    setAssignInterviewer(e.target.value);
-    console.log(id);
+    console.log(e.target.value);
     firestore.collection('candidates')
-    .doc(id)
-    .update({ interviewer: candidateAssignInterviewer })
-    .then((data) => {console.log(data)})
-    .catch((err) => { console.log(err) })
+      .doc(id)
+      .update({ interviewer: e.target.value })
+      .then((data) => { console.log(data) })
+      .catch((err) => { console.log(err) })
   }
 
 

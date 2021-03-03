@@ -32,7 +32,7 @@ const Recruiter = () => {
 		if (e.target.id === 'jobtitle-create') {
 			setJobTitle( e.target.value );
 		} else if (e.target.id === 'totalopenings-create') {
-			setTotalOpenings( e.target.value );
+			setTotalOpenings( parseInt(e.target.value) );
 		} else if (e.target.id === 'jobstatus-create') {
 			setJobStatus( e.target.value );
 		} else {
@@ -93,7 +93,7 @@ const Recruiter = () => {
 						</div>
 						<div className="form-group">
 							<label htmlFor="totalopenings-create">Total Openings</label>
-							<input onChange={handleChange} className="form-control" type="text" id="totalopenings-create" name="totalopenings-create" placeholder="Enter Total Openings" />
+							<input onChange={handleChange} className="form-control" type="number" id="totalopenings-create" name="totalopenings-create" placeholder="Enter Total Openings" />
 						</div>
 						<div className="form-group">
 							<label htmlFor="jobstatus-create">Job Status</label>

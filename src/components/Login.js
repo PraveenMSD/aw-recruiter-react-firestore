@@ -36,6 +36,9 @@ const Login = () => {
                 } else if (user.data().role === "interviewer") {
                     history.push("/interviewer");
                     console.log("Not authorized")
+                } else if (user.data().role === "candidate") {
+                    history.push("/candidates");
+                    console.log("Not authorized")
                 } else {
                     history.push("/")
                 }
