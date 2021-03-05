@@ -151,3 +151,9 @@ a{
   top: 50px;
   width: 60%;
 }
+
+.jumbotron {
+  position: absolute;
+  width: 1200px;
+  left: 50px;
+}

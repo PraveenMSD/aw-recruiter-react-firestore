@@ -11,6 +11,12 @@ const Interviewer = () => {
         getCandidates();
     }, []);
 
+    const options = [
+        { value: 'Selected' },
+        { value: 'Rejected' },
+        { value: 'On-Hold' }
+      ]
+
     const getCandidates = () => {
         firestore.collection('candidates').get()
             .then(response => {
@@ -21,12 +27,15 @@ const Interviewer = () => {
                         interviewer: document.data().interviewer,
                         title: document.data().jobAssignTitle,
                         useremail: document.data().userEmail,
+                        status: document.data().status,
                         select: (
                             <div className="text-center h-6">
                                 <select onChange={(e) => handleChange(e, document.id)}>
-                                    <option id="selectedValue" name="selectedValue" value="Selected">Selected</option>
-                                    <option id="selectedValue" name="selectedValue" value="Rejected">Rejected</option>
-                                    <option id="selectedValue" name="selectedValue" value="On-Hold">On-Hold</option>
+                                    <option id="selectedValue" name="selectedValue" value="Selected"  >Selected</option>
+                                    <option id="selectedValue" name="selectedValue" value="Rejected"  >Rejected</option>
+                                    <option id="selectedValue" name="selectedValue" value="On-Hold"  >On-Hold</option>
+                                    {/* <option id="selectedValue" name="selectedValue" >{options.value}</option> */}
+                                    {/* <option id="selectedValue" name="selectedValue" value="Selected"  selected={document.data().status ? document.data().status : "Selected"}>Selected</option> */}
                                 </select>
                             </div>
                         ),
@@ -57,7 +66,7 @@ const Interviewer = () => {
             ),
             accessor: 'interviewer',
             className: 'font',
-            width: 250,
+            width: 160,
             Cell: row => <div className="text-center h-4">{row.value}</div>,
         },
         {
@@ -68,7 +77,7 @@ const Interviewer = () => {
             ),
             accessor: 'useremail',
             className: 'font',
-            width: 250,
+            width: 160,
             Cell: row => <div className="text-center h-6">{row.value}</div>,
         },
         {
@@ -79,7 +88,7 @@ const Interviewer = () => {
             ),
             accessor: 'title',
             className: 'font',
-            width: 250,
+            width: 140,
             Cell: row => <div className="text-center h-6">{row.value}</div>,
         },
         {
@@ -88,9 +97,20 @@ const Interviewer = () => {
                     Status
                 </div>
             ),
+            accessor: 'status',
+            className: 'font',
+            width: 140,
+            Cell: row => <div className="text-center h-6">{row.value}</div>,
+        },
+        {
+            Header: () => (
+                <div className="text-center font-weight-bold">
+                    Set Status
+                </div>
+            ),
             accessor: 'select',
             className: 'font',
-            width: 250,
+            width: 140,
             Cell: row => <div className="text-center h-6">{row.value}</div>,
         }
     ];

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { firestore } from '../firebase/config';
+import { auth, firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
@@ -11,6 +11,7 @@ const Candidates = () => {
     const {currentUser} = useContext(UserContext);
     var userEmail = currentUser?.email || '';
 	const [disabled, setDisabled] = useState(false);
+	const currentLoggedUser = auth.currentUser;
 
 	//onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle)} , onClick={(e) => onBtnClick(e, document.data().jobtitle)}
       useEffect(() => {
@@ -130,7 +131,7 @@ const Candidates = () => {
 
     return (
         <div>
-            <h6 className="applyTitle">{`${userEmail},select the job title and click apply`}</h6>
+            <h6 className="applyTitle">{`${currentLoggedUser.email},select the job title and click apply`}</h6>
 
             {/* <form onSubmit={(e) => {
                 handleSubmit(e, userEmail, jobAssignTitle)

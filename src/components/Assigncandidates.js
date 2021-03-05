@@ -38,6 +38,7 @@ const Assigncandidates = () => {
                     id="selectedValue" 
                     name="selectedValue" 
                     value={data.name}
+                    selected={document.data().interviewer === data.name}
                     >
                     {data.name}
                   </option>)
