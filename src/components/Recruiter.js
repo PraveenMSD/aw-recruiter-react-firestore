@@ -24,7 +24,9 @@ const Recruiter = () => {
 		firestore.collection('jobs')
 			.doc()
 			.set({ jobtitle, totalopenings, jobstatus, entrylevel })
-			.then(() => handleClose())
+			.then(() => handleClose()
+			
+			)
 			.catch((err) => { console.log(err) })
 	}
 
