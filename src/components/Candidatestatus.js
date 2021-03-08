@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { firestore } from '../firebase/config';
+import { firestore, auth } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 
 const Candidatestatus = () => {
 
     const [appliedCandidates, setCandidate] = useState([]);
+    const currentLoggedUser = auth.currentUser;
 
     useEffect(() => {
         getCandidates();
@@ -25,10 +26,10 @@ const Candidatestatus = () => {
                     };
                     fetchedCandidates.push(fetchedCandidate);
                 });
-                setCandidate(fetchedCandidates);
+                setCandidate(fetchedCandidates.filter(email => email.useremail === currentLoggedUser?.email));
             })
     }
-
+    console.log(appliedCandidates)
     const appliedCandidatescolumns = [
         {
             Header: () => (

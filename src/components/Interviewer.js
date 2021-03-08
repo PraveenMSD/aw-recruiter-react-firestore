@@ -1,15 +1,25 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { firestore } from '../firebase/config';
+import { auth, firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
 
 const Interviewer = () => {
     const [appliedCandidates, setCandidate] = useState([]);
+    const currentLoggedUser = auth.currentUser;
+    const userName = currentLoggedUser?.email.split("@")[0];
+    const capUserName = userName?.charAt(0).toUpperCase() + userName?.slice(1);
+    console.log(capUserName)
 
     useEffect(() => {
         getCandidates();
+        // fileterInterviewer();
+        // appliedCandidates.filter(interviewer => interviewer === userName)
     }, []);
+
+    // setStonesToShow(currentStones => {
+    //     return currentStones.filter(item => item.type === stoneType.checked && stoneColor.checked)
+    //  })
 
     const options = [
         { value: 'Selected' },
@@ -27,10 +37,10 @@ const Interviewer = () => {
                         interviewer: document.data().interviewer,
                         title: document.data().jobAssignTitle,
                         useremail: document.data().userEmail,
-                        status: document.data().status,
+                        selectedstatus: document.data().status,
                         select: (
                             <div className="text-center h-6">
-                                <select onChange={(e) => handleChange(e, document.id)}>
+                                <select onClick={(e) => handleChange(e, document.id)}>
                                     <option id="selectedValue" name="selectedValue" value="Selected"  >Selected</option>
                                     <option id="selectedValue" name="selectedValue" value="Rejected"  >Rejected</option>
                                     <option id="selectedValue" name="selectedValue" value="On-Hold"  >On-Hold</option>
@@ -43,17 +53,23 @@ const Interviewer = () => {
                     fetchedCandidates.push(fetchedCandidate);
                 });
                 setCandidate(fetchedCandidates);
+                // .filter(user => user.online == true);
+                setCandidate(fetchedCandidates.filter(int => int.interviewer === capUserName));
             })
     }
 
     console.log(appliedCandidates)
 
+    // const fileterInterviewer = () => {
+    //     setCandidate(appliedCandidates.filter(interviewer => interviewer === userName))
+    //     console.log(appliedCandidates)
+    // }
 
     const handleChange = async (e, id) => {
         firestore.collection('candidates')
         .doc(id)
         .update({ status: e.target.value })
-        .then((data) => {console.log(data)})
+        .then((data) => {console.log(e.target.value)})
         .catch((err) => { console.log(err) })
       }
 
@@ -97,7 +113,7 @@ const Interviewer = () => {
                     Status
                 </div>
             ),
-            accessor: 'status',
+            accessor: 'selectedstatus',
             className: 'font',
             width: 140,
             Cell: row => <div className="text-center h-6">{row.value}</div>,

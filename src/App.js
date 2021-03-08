@@ -1,6 +1,6 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useEffect, useContext } from 'react'
+import {useEffect, useContext, useState } from 'react'
 import { BrowserRouter, Route, Switch, useHistory, Redirect } from 'react-router-dom'
 import Home from './components/Home'
 import Profile from './components/Profile'
@@ -19,7 +19,8 @@ import { UserProvider } from './providers/UserProvider'
 import 'react-toolbox/lib/table';
 import { auth, firestore } from './firebase/config';
 
-function App() {
+
+function App(props) {
 
 	const {currentUser, setCurrentUser } = useContext(UserContext);
 
@@ -93,13 +94,13 @@ function App() {
       <Route exact path="/profile" component={Profile} />
       {/* <Route exact path="/login" component={Login}/> */}
       <Route exact path="/signup" component={SignUp}/>
-      <Route exact path="/admin" render = {() => (currentUser?.userRole === "admin"  ?  (<Admin />) : (alert("You need to be admin to access this page")))}/>
-      <Route exact path="/recruiter" render = {() => (currentUser?.userRole === "hr"  ?  (<Recruiter />) : (alert("You need to be hr to access this page")))}/>
+      <Route exact path="/admin" component={Admin}/>
+      <Route exact path="/recruiter" component={Recruiter}/>
       {/* <Route exact path="/interviewer" component={Interviewer}/> */}
-      <Route exact path="/interviewer" render = {() => (currentUser?.userRole === "interviewer"  ?  (<Interviewer />) : (alert("You need to be interviewer to access this page")))}/>
-      <Route exact path="/candidates" render = {() => (currentUser?.userRole === "candidate"  ?  (<Candidates />) : (alert("You need to be candidate to access this page")))}/>
+      <Route exact path="/interviewer" component={Interviewer}/>
+      <Route exact path="/candidates" component={Candidates}/>
       <Route exact path="/candidatestatus" component={Candidatestatus}/>
-      <Route exact path="/assigncandidates" render = {() => (currentUser?.userRole === "hr"  ?  (<Assigncandidates />) : (alert("You need to be hr to access this page")))}/>
+      <Route exact path="/assigncandidates" component={Assigncandidates}/>
     </div>
         <Footer />
       </UserProvider>  

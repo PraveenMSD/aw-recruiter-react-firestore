@@ -54,7 +54,7 @@ const SignUp = () => {
 							</div>
 							<div className="form-group">
 								<h6>Already have account?
-									<Link to="/login"> Sign in</Link>
+									<Link to="/"> Sign in</Link>
 								</h6>
 							</div>
 						</form>

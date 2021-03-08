@@ -25,7 +25,7 @@ const Recruiter = () => {
 			.doc()
 			.set({ jobtitle, totalopenings, jobstatus, entrylevel })
 			.then(() => handleClose()
-			
+
 			)
 			.catch((err) => { console.log(err) })
 	}
@@ -33,46 +33,45 @@ const Recruiter = () => {
 
 	const handleChange = (e) => {
 		if (e.target.id === 'jobtitle-create') {
-			setJobTitle( e.target.value );
+			setJobTitle(e.target.value);
 		} else if (e.target.id === 'totalopenings-create') {
-			setTotalOpenings( parseInt(e.target.value) );
+			setTotalOpenings(parseInt(e.target.value));
 		} else if (e.target.id === 'jobstatus-create') {
-			setJobStatus( e.target.value );
+			setJobStatus(e.target.value);
 		} else {
-			setEntryLevel( e.target.value );
+			setEntryLevel(e.target.value);
 		}
 	}
 
 	useEffect(() => {
-		(async()=>{
+		(async () => {
 			await firestore.collection('jobs').get()
-			.then((snapshot) => {
-				console.log(snapshot);
-				var data = []
-				snapshot.docs.map((doc) => {
-					console.log(doc.id)
+				.then((snapshot) => {
+					console.log(snapshot);
+					var data = []
+					snapshot.docs.map((doc) => {
+						console.log(doc.id)
 
-					var view=(
-						<div className="text-center h-4"><button type='button' onClick={() => handleDelete(doc.id)}>
-							&#10005;
+						var view = (
+							<div className="text-center h-4"><button type='button' onClick={() => handleDelete(doc.id)}>
+								&#10005;
 						</button></div>
-					)
+						)
 
-					data.push({...doc.data(), id: doc.id, view})
-					setJobDetails([...data]);
-					console.log(jobsDetails);
-		
+						data.push({ ...doc.data(), id: doc.id, view })
+						setJobDetails([...data]);
+
+					});
+				})
+				.catch((err) => {
+					console.log('Error getting documents', err);
 				});
-			})
-			.catch((err) => {
-				console.log('Error getting documents', err);
-			});
-		 })();
-	},[]);
-	
+		})();
+	}, []);
+	console.log(jobsDetails)
 	const handleDelete = id => {
 		offersRef.doc(id)
-		.delete()
+			.delete()
 	};
 
 
@@ -107,8 +106,8 @@ const Recruiter = () => {
 							<input onChange={handleChange} className="form-control" type="text" id="entrylevel-create" name="entrylevel-create" placeholder="Enter entry Level" />
 						</div>
 						<div className="form-group text-center">
-						<Button variant="secondary" onClick={handleClose}>
-						Close
+							<Button variant="secondary" onClick={handleClose}>
+								Close
 						</Button> &nbsp;
 							<button className="btn btn-success" type="submit" onClick={useEffect}>Create</button>
 						</div>
@@ -196,15 +195,15 @@ const Recruiter = () => {
 			<h4 className="recruiterTitle font-weight-bold">Jobs</h4>
 			{BootstrapModal()}
 			{console.log(jobsDetails)}
-		<div className="container">
-			<ReactTable
-          data={jobsDetails}
-          columns={jobDetailsTablecolumns}
+			<div className="container text-center">
+				<ReactTable
+					data={jobsDetails}
+					columns={jobDetailsTablecolumns}
 					className='ReactTable'
-          sortable={true}
-          defaultPageSize={5}
-        />
-		</div>
+					sortable={true}
+					defaultPageSize={5}
+				/>
+			</div>
 
 		</>
 	);

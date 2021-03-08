@@ -53,11 +53,10 @@ a{
   
   
   .loginsignup-form {
-    position: absolute;
-    top: 50px;
+    top: 30px;
     left: 500px;
     width: 340px;
-    margin: 50px auto;
+    margin: auto;
   }
   
   .loginsignup-form {
@@ -104,18 +103,16 @@ a{
   }
 
 .recruiterTitle {
-  position: absolute;
-  left: 95px;
+  float: left;
+  margin-left: 50px;
 }
 
 .addJobBtn {
-  position: absolute;
-  left: 1125px;
-  top: 100px;
+  float: right;
+  margin-right: 40px;
 }
 
 .ReactTable {
-  position: absolute;
   top: 50px;
 }
 
@@ -133,7 +130,6 @@ a{
 }
 
 .candidateReactTable {
-  position: absolute;
   left: 200px;
   top: 40px;
   width: 70%;
@@ -146,14 +142,13 @@ a{
 }
 
 .assignCandidateReactTable {
-  position: absolute;
   left: 280px;
   top: 50px;
   width: 60%;
 }
 
 .jumbotron {
-  position: absolute;
   width: 1200px;
   left: 50px;
+  margin: auto;
 }
