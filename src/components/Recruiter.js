@@ -21,13 +21,17 @@ const Recruiter = () => {
 
 	const handleSubmit = (e, jobtitle, totalopenings, jobstatus, entrylevel) => {
 		e.preventDefault();
-		firestore.collection('jobs')
-			.doc()
-			.set({ jobtitle, totalopenings, jobstatus, entrylevel })
-			.then(() => handleClose()
+		if (jobtitle, totalopenings, jobstatus, entrylevel == "") {
+			alert("Input fields cannot be empty")
+		} else {
+			firestore.collection('jobs')
+				.doc()
+				.set({ jobtitle, totalopenings, jobstatus, entrylevel })
+				.then(() => handleClose()
 
-			)
-			.catch((err) => { console.log(err) })
+				)
+				.catch((err) => { console.log(err) })
+		}
 	}
 
 

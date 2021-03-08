@@ -26,7 +26,15 @@ const Candidatestatus = () => {
                     };
                     fetchedCandidates.push(fetchedCandidate);
                 });
-                setCandidate(fetchedCandidates.filter(email => email.useremail === currentLoggedUser?.email));
+                //(currentLoggedUser?.email === "hrjack@awr.com")) ? fetchedCandidates : setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email)));
+                if(currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com"){
+                    setCandidate(fetchedCandidates)
+                }
+                else {
+                    setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
+                }
+                
+                //setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
             })
     }
     console.log(appliedCandidates)

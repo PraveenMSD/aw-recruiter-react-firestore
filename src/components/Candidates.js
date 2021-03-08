@@ -18,36 +18,36 @@ const Candidates = () => {
 	const [emBool, setemBool] = useState(false);
 	const [jbBool, setjbBool] = useState(false);
 
-	console.log(userEmail)
+	console.log(currentLoggedUser?.email)
 
 
 	//onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle)} , onClick={(e) => onBtnClick(e, document.data().jobtitle)}
 	useEffect(() => {
 		getJobsForCandidates();
-		getCandidateJobs();
+		// getCandidateJobs();
 	}, []);
 
-	const getCandidateJobs = () => {
-		firestore.collection('candidates').get()
-		.then(response => {
-			const fetCandidateEmails = [];
-			const fetCandidateJobs = [];
-			response.docs.forEach(document => {
-				const fetCandidateEmail = {
-					uEmail: document.data().userEmail,
-					uTitle: document.data().jobAssignTitle
-				}
-				const fetCandidateJob = {
-					uTitle: document.data().jobAssignTitle
-				}
+	// const getCandidateJobs = () => {
+	// 	firestore.collection('candidates').get()
+	// 	.then(response => {
+	// 		const fetCandidateEmails = [];
+	// 		const fetCandidateJobs = [];
+	// 		response.docs.forEach(document => {
+	// 			const fetCandidateEmail = {
+	// 				uEmail: document.data().userEmail,
+	// 				uTitle: document.data().jobAssignTitle
+	// 			}
+	// 			const fetCandidateJob = {
+	// 				uTitle: document.data().jobAssignTitle
+	// 			}
 
-				fetCandidateEmails.push(fetCandidateEmail)
-				fetCandidateJobs.push(fetCandidateJob)
-			})
-			setappCandidateEm(fetCandidateEmails);
-			setappCandidateJb(fetCandidateJobs);
-		})
-	}
+	// 			fetCandidateEmails.push(fetCandidateEmail)
+	// 			fetCandidateJobs.push(fetCandidateJob)
+	// 		})
+	// 		setappCandidateEm(fetCandidateEmails);
+	// 		setappCandidateJb(fetCandidateJobs);
+	// 	})
+	// }
 
 
 
@@ -64,25 +64,14 @@ const Candidates = () => {
 						status: document.data().jobstatus,
 						level: document.data().entrylevel,
 						apply: (
-							appCandidateEm.map(function (val) {
-								if (userEmail === val.uEmail){
-									setemBool(true)
-								}
-
-								// (userEmail === val.uEmail) ?
-								// 	setemBool(true) : setemBool(false)
-							}),
-							appCandidateJb.map(function (val) {
-								(document.data().jobtitle === val.uTitle) ?
-									setjbBool(true) : setjbBool(false)
-							}),
 							// (emBool === true && jbBool === true) ?
-							 <button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings)} >Apply</button>
+							<button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings)} >Apply</button>
 						)
 					};
 					fetchedJobs.push(fetchedJob);
 				});
-				setJobs(fetchedJobs);
+				// setJobs(fetchedJobs);
+				setJobs(fetchedJobs.filter(open => open.openings > 0));
 			})
 	}
 
@@ -95,14 +84,31 @@ const Candidates = () => {
 
 
 
-	console.log(emBool)
+	console.log(jobs)
 
-	const decrementJobOpeningOnApply = (jobId, openingss) => {
+	const decrementJobOpeningOnApply = (jobId, openingss, userEmail) => {
 		console.log(jobId);
 		console.log(parseInt(openingss - 1))
-		firestore.collection('jobs')
-			.doc(jobId)
-			.update({ totalopenings: parseInt(openingss - 1) })
+
+
+
+		firestore.collection('jobs').doc("ozjBKq5TNMpqGDMmomgt")
+			.set(
+				{ appliedemails: "Good"}, { merge: true }
+
+
+				// if (docSnapshot.exists) {
+				// 	usersRef.onSnapshot((doc) => {
+				// 		// do stuff with the data
+				// 	});
+				// } else {
+				// 	usersRef.set({}) // create the document
+				// }
+			);
+
+		// firestore.collection('jobs')
+		// 	.doc(jobId)
+		// 	.update({ totalopenings: parseInt(openingss - 1), appliedemails: [userEmail] })
 	}
 
 	const handleSubmit = (e, userEmail, jobAssignTitle, jobId, openingss) => {
@@ -111,12 +117,12 @@ const Candidates = () => {
 		console.log(userEmail);
 		console.log(jobAssignTitle);
 
-		decrementJobOpeningOnApply(jobId, openingss);
+		decrementJobOpeningOnApply(jobId, openingss, userEmail);
 
-		firestore.collection('candidates')
-			.doc()
-			.set({ userEmail, jobAssignTitle })
-			.catch((err) => { console.log(err) })
+		// firestore.collection('candidates')
+		// 	.doc()
+		// 	.set({ userEmail, jobAssignTitle })
+		// 	.catch((err) => { console.log(err) })
 	}
 
 	const handleChange = async (e) => {

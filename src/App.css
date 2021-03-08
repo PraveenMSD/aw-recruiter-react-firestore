@@ -148,7 +148,8 @@ a{
 }
 
 .jumbotron {
-  width: 1200px;
-  left: 50px;
+  width: 600px;
+  height: 400px;
+  left: 10px;
   margin: auto;
 }
