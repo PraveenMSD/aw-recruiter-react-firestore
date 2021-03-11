@@ -113,7 +113,7 @@ const Recruiter = () => {
 							<Button variant="secondary" onClick={handleClose}>
 								Close
 						</Button> &nbsp;
-							<button className="btn btn-success" type="submit" onClick={useEffect}>Create</button>
+							<button className="btn btn-success" type="submit">Create</button>
 						</div>
 					</form>
 				</Modal.Body>

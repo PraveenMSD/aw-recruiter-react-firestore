@@ -2,8 +2,6 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect, useContext, useState } from 'react'
 import { BrowserRouter, Route, Switch, useHistory, Redirect } from 'react-router-dom'
-import Home from './components/Home'
-import Profile from './components/Profile'
 import Header from './components/Navbar'
 import Footer from './components/Footer'
 import Login from './components/Login'
@@ -18,6 +16,8 @@ import { UserContext } from './providers/UserProvider'
 import { UserProvider } from './providers/UserProvider'
 import 'react-toolbox/lib/table';
 import { auth, firestore } from './firebase/config';
+import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
 
 
 function App(props) {
@@ -91,7 +91,7 @@ function App(props) {
         {/* {jsx} */}
         <div>
       <Route exact path="/" component={Login}/>
-      <Route exact path="/profile" component={Profile} />
+      <Route exact path="/dashboard" component={Dashboard} />
       {/* <Route exact path="/login" component={Login}/> */}
       <Route exact path="/signup" component={SignUp}/>
       <Route exact path="/admin" component={Admin}/>
@@ -101,6 +101,7 @@ function App(props) {
       <Route exact path="/candidates" component={Candidates}/>
       <Route exact path="/candidatestatus" component={Candidatestatus}/>
       <Route exact path="/assigncandidates" component={Assigncandidates}/>
+      <Route exact path="/profile" component={Profile} />
     </div>
         <Footer />
       </UserProvider>  

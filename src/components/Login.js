@@ -19,7 +19,7 @@ const Login = () => {
 
 		auth.signInWithEmailAndPassword(email, password)
 			.then(userAuth => {
-				history.push('/profile')
+				history.push('/dashboard')
 				// firestore.collection('users')
 				// 	.doc(userAuth.user.uid)
 				// 	.get()

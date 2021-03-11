@@ -4,6 +4,8 @@ import { UserContext } from '../providers/UserProvider'
 import { auth } from '../firebase/config'
 import SignedOutLinks from './SignedOutLinks'
 import { firestore } from '../firebase/config';
+import { Dropdown } from "react-bootstrap";
+import { FaUserAlt } from "react-icons/fa";
 
 
 
@@ -49,21 +51,33 @@ const LoggedInLinks = () => {
                 <li><Link to="/interviewer">Interviewer</Link></li>
                 <li><Link to="/candidatestatus">Status</Link></li>
                 <li><Link to="/" onClick={handleClick}>Logout</Link></li> */}
-                <li><Link to="/profile">Profile</Link></li>
+                <li><Link to="/dashboard">Dashboard</Link></li>
                 {userRole === "hr" ?
-                    <li><Link to="/recruiter">Recruiter</Link></li>
-                    : ""}
-                {userRole === "hr" ?
-                    <li><Link to="/assigncandidates">Assign</Link></li>
+                    <li><Link to="/assigncandidates">Interviewer</Link></li>
                     : ""}
                 {userRole === "interviewer" ?
-                    <li><Link to="/interviewer">Interviewer</Link></li>
+                    <li><Link to="/interviewer">Intervieweree</Link></li>
                     : ""}
                 {userRole === "candidate" ?
                     <li><Link to="/candidates">Candidates</Link></li>
                     : ""}
+                {userRole === "hr" ?
+                    <li><Link to="/recruiter">Jobs</Link></li>
+                    : ""}
                 <li><Link to="/candidatestatus">Status</Link></li>
                 <li><Link to="/" onClick={handleClick}>Logout</Link></li>
+                <li>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="white" id="dropdown-basic">
+                            <FaUserAlt />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="listRight">
+                            <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                            <Dropdown.Item href="/" onClick={handleClick}>Logout</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </li>
             </ul>
         </div>
     )

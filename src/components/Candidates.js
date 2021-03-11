@@ -3,6 +3,7 @@ import { auth, firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
+import { Bar } from 'react-chartjs-2';
 
 const Candidates = () => {
 	const [JobTitle, setJobTitle] = useState('');
@@ -14,42 +15,17 @@ const Candidates = () => {
 	const [disabled, setDisabled] = useState(false);
 	const [appCandidateEm, setappCandidateEm] = useState([]);
 	const [appCandidateJb, setappCandidateJb] = useState([]);
-
-	const [emBool, setemBool] = useState(false);
-	const [jbBool, setjbBool] = useState(false);
+	const [isFirebaseInitialized, setFirebaseInitialized] = useState(false)
 
 	console.log(currentLoggedUser?.email)
 
 
 	//onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle)} , onClick={(e) => onBtnClick(e, document.data().jobtitle)}
 	useEffect(() => {
-		getJobsForCandidates();
-		// getCandidateJobs();
+		getJobsForCandidates()
 	}, []);
 
-	// const getCandidateJobs = () => {
-	// 	firestore.collection('candidates').get()
-	// 	.then(response => {
-	// 		const fetCandidateEmails = [];
-	// 		const fetCandidateJobs = [];
-	// 		response.docs.forEach(document => {
-	// 			const fetCandidateEmail = {
-	// 				uEmail: document.data().userEmail,
-	// 				uTitle: document.data().jobAssignTitle
-	// 			}
-	// 			const fetCandidateJob = {
-	// 				uTitle: document.data().jobAssignTitle
-	// 			}
-
-	// 			fetCandidateEmails.push(fetCandidateEmail)
-	// 			fetCandidateJobs.push(fetCandidateJob)
-	// 		})
-	// 		setappCandidateEm(fetCandidateEmails);
-	// 		setappCandidateJb(fetCandidateJobs);
-	// 	})
-	// }
-
-
+	console.log(isFirebaseInitialized)
 
 
 	const getJobsForCandidates = () => {
@@ -63,9 +39,10 @@ const Candidates = () => {
 						openings: document.data().totalopenings,
 						status: document.data().jobstatus,
 						level: document.data().entrylevel,
+						appliedemails: document.data().appliedemails,
 						apply: (
 							// (emBool === true && jbBool === true) ?
-							<button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings)} >Apply</button>
+							(document.data().appliedemails === currentLoggedUser?.email) ? "Applied" : <button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings, document.data().appliedemails)}>Apply</button>
 						)
 					};
 					fetchedJobs.push(fetchedJob);
@@ -90,25 +67,26 @@ const Candidates = () => {
 		console.log(jobId);
 		console.log(parseInt(openingss - 1))
 
+		// var appliedemails = "ArrayThree"
+		// firestore.collection('jobs').doc("ozjBKq5TNMpqGDMmomgt")
+		// 	.set({ appliedemails: [{ mail: "cdadam@awr.com"}] },
+		// 		{ merge: true }
+		// .update({appliedemails: [{appliedemails}]}, { merge: true}
 
 
-		firestore.collection('jobs').doc("ozjBKq5TNMpqGDMmomgt")
-			.set(
-				{ appliedemails: "Good"}, { merge: true }
 
+		// if (docSnapshot.exists) {
+		// 	usersRef.onSnapshot((doc) => {
+		// 		// do stuff with the data
+		// 	});
+		// } else {
+		// 	usersRef.set({}) // create the document
+		// }
+		// );
 
-				// if (docSnapshot.exists) {
-				// 	usersRef.onSnapshot((doc) => {
-				// 		// do stuff with the data
-				// 	});
-				// } else {
-				// 	usersRef.set({}) // create the document
-				// }
-			);
-
-		// firestore.collection('jobs')
-		// 	.doc(jobId)
-		// 	.update({ totalopenings: parseInt(openingss - 1), appliedemails: [userEmail] })
+		firestore.collection('jobs')
+			.doc(jobId)
+			.update({ totalopenings: parseInt(openingss - 1), appliedemails: userEmail })
 	}
 
 	const handleSubmit = (e, userEmail, jobAssignTitle, jobId, openingss) => {
@@ -119,16 +97,34 @@ const Candidates = () => {
 
 		decrementJobOpeningOnApply(jobId, openingss, userEmail);
 
-		// firestore.collection('candidates')
-		// 	.doc()
-		// 	.set({ userEmail, jobAssignTitle })
-		// 	.catch((err) => { console.log(err) })
+		firestore.collection('candidates')
+			.doc()
+			.set({ userEmail, jobAssignTitle })
+			.catch((err) => { console.log(err) })
 	}
 
 	const handleChange = async (e) => {
 		setAssignJobTitle(e.target.value);
 		console.log(jobAssignTitle)
 	}
+
+	// Bar chart
+
+	const data = {
+		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+		datasets: [
+			{
+				label: 'My First dataset',
+				backgroundColor: 'rgba(255,99,132,0.2)',
+				borderColor: 'rgba(255,99,132,1)',
+				borderWidth: 1,
+				hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+				hoverBorderColor: 'rgba(255,99,132,1)',
+				data: [65, 59, 80, 81, 56, 55, 40]
+			}
+		]
+	};
+
 
 	const jobDetailsTablecolumns = [
 		{
@@ -214,6 +210,14 @@ const Candidates = () => {
 					defaultPageSize={5}
 				/>
 			</div>
+			<Bar
+				data={data}
+				width={10}
+				height={10}
+				options={{
+					maintainAspectRatio: false
+				}}
+			/>
 		</div>
 	)
 }
