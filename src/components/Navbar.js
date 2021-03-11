@@ -11,13 +11,12 @@ const Header = () => {
     // const [loading, setLoading] = useState(true)
 
     const currentUser = auth.currentUser
-
     
 
 
     // if(currentUser) {
     //     setLoading(false)
-    // }
+    // }   className="mr-auto navLinks"
 
     const links = currentUser ? <LoggedInLinks/> : <SignedOutLinks/>
     const userName = currentUser ? currentUser.email : "";
@@ -26,7 +25,6 @@ const Header = () => {
     // if(loading) {
         return (
             <Navbar bg="light" variant="light">
-                {console.log(currentUser)}
             <Navbar.Brand href="#home">Awesome Recruiter</Navbar.Brand>
             <Nav className="mr-auto navLinks">
                 {userName}

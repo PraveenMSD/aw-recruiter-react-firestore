@@ -5,14 +5,15 @@ import { FaUserAlt } from "react-icons/fa";
 
 
 const Profile = () => {
-	const [getUser, setgetUser] = useState([]);
+	const [getUser, setgetUser] = useState({});
 	const [name, setgetName] = useState([]);
 	const [phone, setgetPhone] = useState([]);
 	const [designation, setgetDesignation] = useState([]);
 	const [organization, setgetOrganization] = useState([]);
+	const [loading, setLoading] = useState(true)
 
 	const Loadingscreen = () => {
-		return getUser? true : false
+		return !getUser ? true : false
 	}
 
 	useEffect(() => {
@@ -20,17 +21,25 @@ const Profile = () => {
 	}, [])
 
 	const getUserName = () => {
-		const userD = [];
-		firestore.collection("users")
-			.doc(auth.currentUser?.uid)
-			.get()
-			.then((document) => {
-				userD.push(document.data())
+		var userD;
+		const uid = auth.currentUser?.uid
+		auth.onAuthStateChanged(function (user) {
+			if (user) {
+				firestore.collection("users")
+					.doc(user.uid)
+					.get()
+					.then((document) => {
+						userD = document.data()
+						setgetUser({...userD})
+						setLoading(false)
+					})
+			} else {
+				// No user is signed in.
+				console.log('else')
+			}
+		});
 
-				setgetUser(...userD, getUser)
-			})
 	}
-	console.log(getUser)
 
 	const handleSubmit = (e, name, phone, designation, organization) => {
 		e.preventDefault();
@@ -39,7 +48,7 @@ const Profile = () => {
 		} else {
 			firestore.collection('users')
 				.doc(auth.currentUser?.uid)
-				.update({name, phone, designation, organization})
+				.update({ name, phone, designation, organization })
 				.then(() => alert("Profile updated"))
 				.catch((err) => { alert(err) })
 		}
@@ -57,7 +66,7 @@ const Profile = () => {
 		}
 	}
 
-	return Loadingscreen()? (
+	return !loading ? (
 		<>
 			<Container >
 				<Row>

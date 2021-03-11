@@ -20,35 +20,6 @@ const Login = () => {
 		auth.signInWithEmailAndPassword(email, password)
 			.then(userAuth => {
 				history.push('/dashboard')
-				// firestore.collection('users')
-				// 	.doc(userAuth.user.uid)
-				// 	.get()
-				// 	.then(user => {
-				// 		setCurrentUser({
-				// 			...currentUser,
-				// 			name: user.data().name,
-				// 			userRole: user.data().role,
-				// 		})
-				// 		userRole = user.data().role
-				// 		console.log(userRole)
-				// 		if (user.data().role === "admin") {
-				// 			history.push("/admin");
-				// 			//console.log("Welcome admin")
-				// 			//return <Redirect to="/admin" />
-
-				// 		} else if (user.data().role === "hr") {
-				// 			history.push("/recruiter");
-				// 			console.log("Not authorized")
-				// 		} else if (user.data().role === "interviewer") {
-				// 			history.push("/interviewer");
-				// 			console.log("Not authorized")
-				// 		} else if (user.data().role === "candidate") {
-				// 			history.push("/candidates");
-				// 			console.log("Not authorized")
-				// 		} else {
-				// 			history.push("/")
-				// 		}
-				// 	})
 			})
 
 	}
@@ -61,7 +32,6 @@ const Login = () => {
 		}
 	}
 
-	console.log(userRole);
 	return (
 		<div className="loginsignup-form">
 			<h1 className="text-center">Log in</h1>

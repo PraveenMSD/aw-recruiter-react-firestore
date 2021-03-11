@@ -130,9 +130,9 @@ a{
 }
 
 .candidateReactTable {
-  left: 200px;
-  top: 40px;
-  width: 70%;
+  left: 30px;
+  top: 0px;
+  width: 100%;
 }
 
 .applyTitle {
@@ -142,9 +142,25 @@ a{
 }
 
 .assignCandidateReactTable {
-  left: 280px;
-  top: 50px;
+  left: 15px;
+  top: 40px;
+  width: 95%;
+
+}
+
+.interviewerReactTable {
+  left: 240px;
   width: 60%;
+}
+
+.card-stats {
+  top: 40px;
+}
+
+.statusCandidateReactTable {
+  left: 120px;
+  top: 50px;
+  width: 82%;
 }
 
 .jumbotron {

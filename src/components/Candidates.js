@@ -4,29 +4,27 @@ import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
 import { Bar } from 'react-chartjs-2';
+import { getUserRole } from "../firebase/functions";
+import { Redirect } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
+import { Card, Row, Col } from "react-bootstrap";
+import { FcBullish, BsFillHeartFill } from "react-icons/all";
 
 const Candidates = () => {
 	const [JobTitle, setJobTitle] = useState('');
 	const [jobs, setJobs] = useState([]);
 	const [jobAssignTitle, setAssignJobTitle] = useState('');
+	const [role, getRole] = useState('');
 	const currentLoggedUser = auth.currentUser;
 	const { currentUser } = useContext(UserContext);
 	var userEmail = currentLoggedUser?.email || '';
-	const [disabled, setDisabled] = useState(false);
-	const [appCandidateEm, setappCandidateEm] = useState([]);
-	const [appCandidateJb, setappCandidateJb] = useState([]);
-	const [isFirebaseInitialized, setFirebaseInitialized] = useState(false)
+	const applynotify = () => toast.success("Applied successfully");
+	const [totalJobs, setTotalJob] = useState(0);
 
-	console.log(currentLoggedUser?.email)
-
-
-	//onClick={(e) => handleSubmit(e,userEmail,document.data().jobtitle)} , onClick={(e) => onBtnClick(e, document.data().jobtitle)}
 	useEffect(() => {
+		getUserRole()
 		getJobsForCandidates()
 	}, []);
-
-	console.log(isFirebaseInitialized)
-
 
 	const getJobsForCandidates = () => {
 		firestore.collection('jobs').get()
@@ -43,47 +41,31 @@ const Candidates = () => {
 						apply: (
 							// (emBool === true && jbBool === true) ?
 							(document.data().appliedemails === currentLoggedUser?.email) ? "Applied" : <button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings, document.data().appliedemails)}>Apply</button>
-						)
+						),
 					};
+					setTotalJob(prevState => prevState + parseInt(document.data().totalopenings))
 					fetchedJobs.push(fetchedJob);
 				});
-				// setJobs(fetchedJobs);
 				setJobs(fetchedJobs.filter(open => open.openings > 0));
 			})
 	}
+	console.log(totalJobs)
 
+	const getUserRole = () => {
+		auth.onAuthStateChanged(function (user) {
+			if (user) {
+				firestore.collection("users")
+					.doc(user.uid)
+					.get()
+					.then((document) => {
+						getRole(document.data().role)
+					})
+			}
+		})
+	}
 
-	// appCandidateEm.map(function (val) {
-	// 	if (userEmail === val.uEmail) {
-	// 		setemBool(true)
-	// 	}
-	// })
-
-
-
-	console.log(jobs)
 
 	const decrementJobOpeningOnApply = (jobId, openingss, userEmail) => {
-		console.log(jobId);
-		console.log(parseInt(openingss - 1))
-
-		// var appliedemails = "ArrayThree"
-		// firestore.collection('jobs').doc("ozjBKq5TNMpqGDMmomgt")
-		// 	.set({ appliedemails: [{ mail: "cdadam@awr.com"}] },
-		// 		{ merge: true }
-		// .update({appliedemails: [{appliedemails}]}, { merge: true}
-
-
-
-		// if (docSnapshot.exists) {
-		// 	usersRef.onSnapshot((doc) => {
-		// 		// do stuff with the data
-		// 	});
-		// } else {
-		// 	usersRef.set({}) // create the document
-		// }
-		// );
-
 		firestore.collection('jobs')
 			.doc(jobId)
 			.update({ totalopenings: parseInt(openingss - 1), appliedemails: userEmail })
@@ -92,8 +74,6 @@ const Candidates = () => {
 	const handleSubmit = (e, userEmail, jobAssignTitle, jobId, openingss) => {
 		e.preventDefault();
 		document.getElementById(jobAssignTitle).disabled = true;
-		console.log(userEmail);
-		console.log(jobAssignTitle);
 
 		decrementJobOpeningOnApply(jobId, openingss, userEmail);
 
@@ -101,11 +81,11 @@ const Candidates = () => {
 			.doc()
 			.set({ userEmail, jobAssignTitle })
 			.catch((err) => { console.log(err) })
+		applynotify();
 	}
 
 	const handleChange = async (e) => {
 		setAssignJobTitle(e.target.value);
-		console.log(jobAssignTitle)
 	}
 
 	// Bar chart
@@ -180,44 +160,73 @@ const Candidates = () => {
 			accessor: 'apply',
 			filterable: false,
 			width: 100,
-			//Cell: row => <div className="text-center h-4"><button className="btn btn-success" type="submit">Apply</button></div>,
 		}
 	];
 
 	return (
 		<div>
-			{/* <h6 className="applyTitle">{`${currentLoggedUser.email},select the job title and click apply`}</h6> */}
-
-			{/* <form onSubmit={(e) => {
-                handleSubmit(e, userEmail, jobAssignTitle)
-            }}>
-                <select className="jobSelectDD" onChange={(e) => handleChange(e)}>
-                    {jobs.length !== 0 && jobs.map((data) => (
-                    <option id="selectedValue" name="selectedValue" value={data.title}>{data.title}</option> )
-                    )}
-                </select>
-                <div className="form-group text-center">
-                    <button className="btn btn-success applyCandidateJob" type="submit">Apply</button>
-                </div>
-            </form> */}
-
 			<div className="container">
-				<ReactTable
-					data={jobs}
-					columns={jobDetailsTablecolumns}
-					className='candidateReactTable'
-					sortable={true}
-					defaultPageSize={5}
-				/>
+				<Row>
+					<Col>
+						<Card className="card-statss">
+							<Card.Body>
+								<Row>
+									<Col xs="5">
+										<div className="icon-big text-center icon-warning">
+											<FcBullish size={70} />
+										</div>
+									</Col>
+									<Col xs="7">
+										<div className="numbers">
+											<p></p>
+											<Card.Title as="h4">{totalJobs}</Card.Title>
+										</div>
+									</Col>
+								</Row>
+							</Card.Body>
+							<Card.Footer>
+								<div className="stats">
+									<i className="fas fa-redo mr-1"></i>
+                  					Total Job openings
+                			</div>
+							</Card.Footer>
+						</Card>
+						<Card className="mt-4">
+							<Card.Body>
+								<Row>
+									<Col xs="5">
+										<div className="icon-big text-center icon-warning">
+											<BsFillHeartFill size={70} />
+										</div>
+									</Col>
+									<Col xs="7">
+										<div className="numbers">
+											<p></p>
+											<Card.Title as="h4">10K+</Card.Title>
+										</div>
+									</Col>
+								</Row>
+							</Card.Body>
+							<Card.Footer>
+								<div className="stats">
+									<i className="fas fa-redo mr-1"></i>
+                  					Satisfied clients
+                			</div>
+							</Card.Footer>
+						</Card>
+					</Col>
+					<Col >
+						<ReactTable
+							data={jobs}
+							columns={jobDetailsTablecolumns}
+							className='candidateReactTable'
+							sortable={true}
+							defaultPageSize={5}
+						/>
+					</Col>
+				</Row>
 			</div>
-			<Bar
-				data={data}
-				width={10}
-				height={10}
-				options={{
-					maintainAspectRatio: false
-				}}
-			/>
+			<ToastContainer />
 		</div>
 	)
 }

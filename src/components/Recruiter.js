@@ -4,6 +4,7 @@ import { UserContext } from '../providers/UserProvider'
 import { firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Recruiter = () => {
@@ -18,11 +19,14 @@ const Recruiter = () => {
 	let [jobstatus, setJobStatus] = useState('');
 	let [entrylevel, setEntryLevel] = useState('');
 	const offersRef = firestore.collection('jobs');
+	const addnotify = () => toast.success("Jobs added successfully");
+	const delnotify = () => toast.warn("Job deleted successfully");
+	const emptynotify = () => toast.error("Fields cannot be empty");
 
 	const handleSubmit = (e, jobtitle, totalopenings, jobstatus, entrylevel) => {
 		e.preventDefault();
 		if (jobtitle, totalopenings, jobstatus, entrylevel == "") {
-			alert("Input fields cannot be empty")
+			emptynotify()
 		} else {
 			firestore.collection('jobs')
 				.doc()
@@ -31,6 +35,7 @@ const Recruiter = () => {
 
 				)
 				.catch((err) => { console.log(err) })
+			addnotify();
 		}
 	}
 
@@ -51,11 +56,8 @@ const Recruiter = () => {
 		(async () => {
 			await firestore.collection('jobs').get()
 				.then((snapshot) => {
-					console.log(snapshot);
 					var data = []
 					snapshot.docs.map((doc) => {
-						console.log(doc.id)
-
 						var view = (
 							<div className="text-center h-4"><button type='button' onClick={() => handleDelete(doc.id)}>
 								&#10005;
@@ -72,10 +74,10 @@ const Recruiter = () => {
 				});
 		})();
 	}, []);
-	console.log(jobsDetails)
 	const handleDelete = id => {
 		offersRef.doc(id)
 			.delete()
+		delnotify();
 	};
 
 
@@ -91,7 +93,6 @@ const Recruiter = () => {
 				<Modal.Body>
 					<form onSubmit={(e) => {
 						handleSubmit(e, jobtitle, totalopenings, jobstatus, entrylevel)
-						console.log('here')
 					}}>
 						<div className="form-group">
 							<label htmlFor="jobtitle-create">Job Title</label>
@@ -126,7 +127,7 @@ const Recruiter = () => {
 		{
 			Header: () => (
 				<div className="text-center font-weight-bold">
-					Job Title
+					Job ID
 				</div>
 			),
 			accessor: 'id',
@@ -143,7 +144,7 @@ const Recruiter = () => {
 			),
 			accessor: 'jobtitle',
 			className: 'font',
-			width: 250,
+			width: 200,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
 		{
@@ -154,7 +155,7 @@ const Recruiter = () => {
 			),
 			accessor: 'totalopenings',
 			className: 'font',
-			width: 250,
+			width: 200,
 			Cell: row => <div className="text-center h-6">{row.value}</div>,
 		},
 		{
@@ -165,7 +166,7 @@ const Recruiter = () => {
 			),
 			accessor: 'jobstatus',
 			className: 'px-4 py-3 text-sm',
-			width: 250,
+			width: 200,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
 		{
@@ -187,7 +188,7 @@ const Recruiter = () => {
 			),
 			accessor: 'view',
 			filterable: false,
-			width: 250,
+			width: 220,
 			// Cell: row => {row.value}
 		}
 	];
@@ -198,7 +199,6 @@ const Recruiter = () => {
 		<>
 			<h4 className="recruiterTitle font-weight-bold">Jobs</h4>
 			{BootstrapModal()}
-			{console.log(jobsDetails)}
 			<div className="container text-center">
 				<ReactTable
 					data={jobsDetails}
@@ -208,7 +208,7 @@ const Recruiter = () => {
 					defaultPageSize={5}
 				/>
 			</div>
-
+			<ToastContainer />
 		</>
 	);
 }

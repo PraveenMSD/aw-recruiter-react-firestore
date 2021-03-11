@@ -9,7 +9,6 @@ const Interviewer = () => {
     const currentLoggedUser = auth.currentUser;
     const userName = currentLoggedUser?.email.split("@")[0];
     const capUserName = userName?.charAt(0).toUpperCase() + userName?.slice(1);
-    console.log(capUserName)
 
     useEffect(() => {
         getCandidates();
@@ -25,7 +24,7 @@ const Interviewer = () => {
         { value: 'Selected' },
         { value: 'Rejected' },
         { value: 'On-Hold' }
-      ]
+    ]
 
     const getCandidates = () => {
         firestore.collection('candidates').get()
@@ -58,8 +57,6 @@ const Interviewer = () => {
             })
     }
 
-    console.log(appliedCandidates)
-
     // const fileterInterviewer = () => {
     //     setCandidate(appliedCandidates.filter(interviewer => interviewer === userName))
     //     console.log(appliedCandidates)
@@ -67,11 +64,11 @@ const Interviewer = () => {
 
     const handleChange = async (e, id) => {
         firestore.collection('candidates')
-        .doc(id)
-        .update({ status: e.target.value })
-        .then((data) => {console.log(e.target.value)})
-        .catch((err) => { console.log(err) })
-      }
+            .doc(id)
+            .update({ status: e.target.value })
+            .then((data) => { console.log(e.target.value) })
+            .catch((err) => { console.log(err) })
+    }
 
     const appliedCandidatescolumns = [
         {
@@ -136,7 +133,7 @@ const Interviewer = () => {
             <ReactTable
                 data={appliedCandidates}
                 columns={appliedCandidatescolumns}
-                className='assignCandidateReactTable'
+                className='interviewerReactTable'
                 sortable={true}
                 defaultPageSize={5}
             />

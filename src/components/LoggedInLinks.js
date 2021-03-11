@@ -16,7 +16,6 @@ const LoggedInLinks = () => {
 
     const { setCurrentUser } = useContext(UserContext);
     const [userRole, setUserRole] = useState("");
-    console.log(currentUser.uid)
 
     const history = useHistory()
 
@@ -38,9 +37,6 @@ const LoggedInLinks = () => {
             })
     }
 
-    console.log(userRole);
-
-
     return (
         <div>
             <ul>
@@ -51,21 +47,22 @@ const LoggedInLinks = () => {
                 <li><Link to="/interviewer">Interviewer</Link></li>
                 <li><Link to="/candidatestatus">Status</Link></li>
                 <li><Link to="/" onClick={handleClick}>Logout</Link></li> */}
-                <li><Link to="/dashboard">Dashboard</Link></li>
                 {userRole === "hr" ?
-                    <li><Link to="/assigncandidates">Interviewer</Link></li>
+                    <li><Link to="/dashboard" >Dashboard</Link></li>
+                    : ""}
+                {userRole === "hr" ?
+                    <li><Link to="/assigncandidates" >Interviewer</Link></li>
                     : ""}
                 {userRole === "interviewer" ?
-                    <li><Link to="/interviewer">Intervieweree</Link></li>
+                    <li><Link to="/interviewer" >Interview</Link></li>
                     : ""}
                 {userRole === "candidate" ?
-                    <li><Link to="/candidates">Candidates</Link></li>
+                    <li><Link to="/candidates" >Apply Jobs</Link></li>
                     : ""}
                 {userRole === "hr" ?
                     <li><Link to="/recruiter">Jobs</Link></li>
                     : ""}
-                <li><Link to="/candidatestatus">Status</Link></li>
-                <li><Link to="/" onClick={handleClick}>Logout</Link></li>
+                <li><Link to="/candidatestatus" >Status</Link></li>
                 <li>
                     <Dropdown>
                         <Dropdown.Toggle variant="white" id="dropdown-basic">

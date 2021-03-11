@@ -43,9 +43,6 @@ const Dashboard = () => {
             })
     }
 
-    console.log(labelsArray, "Label Array");
-    console.log(dataArray, "Data Array");
-
     // useEffect(() => {
     //     (async () => {
     //         await firestore.collection('jobs').get()
@@ -79,7 +76,6 @@ const Dashboard = () => {
             color += letters[Math.floor(Math.random() * 16)];
         }
         colorsArray.push(color)
-        console.log(colorsArray)
         return colorsArray;
     }
 
