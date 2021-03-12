@@ -16,6 +16,7 @@ const LoggedInLinks = () => {
 
     const { setCurrentUser } = useContext(UserContext);
     const [userRole, setUserRole] = useState("");
+    const userName = currentUser ? currentUser.email : "";
 
     const history = useHistory()
 
@@ -63,6 +64,7 @@ const LoggedInLinks = () => {
                     <li><Link to="/recruiter">Jobs</Link></li>
                     : ""}
                 <li><Link to="/candidatestatus" >Status</Link></li>
+                <li>{userName}</li>
                 <li>
                     <Dropdown>
                         <Dropdown.Toggle variant="white" id="dropdown-basic">

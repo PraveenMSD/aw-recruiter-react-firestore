@@ -4,7 +4,7 @@ import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
 import { ToastContainer, toast } from 'react-toastify';
-import { Card, Row, Col } from "react-bootstrap";
+import { Container, Card, Row, Col } from "react-bootstrap";
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
 
 const Assigncandidates = () => {
@@ -29,7 +29,8 @@ const Assigncandidates = () => {
         response.docs.forEach(document => {
           const fetchedCandidate = {
             id: document.id,
-            title: document.data().userEmail,
+            email: document.data().userEmail,
+            candidateName: document.data().userEmail,
             openings: document.data().jobAssignTitle,
             assignedTo: document.data().interviewer,
             select: (
@@ -89,7 +90,7 @@ const Assigncandidates = () => {
           Candidate Name
         </div>
       ),
-      accessor: 'title',
+      accessor: 'candidateName',
       className: 'font',
       width: 200,
       Cell: row => <div className="text-center h-4">{(row.value).split("@")[0]}</div>,
@@ -100,7 +101,7 @@ const Assigncandidates = () => {
           Candidate email
         </div>
       ),
-      accessor: 'title',
+      accessor: 'email',
       className: 'font',
       width: 250,
       Cell: row => <div className="text-center h-4">{row.value}</div>,
@@ -131,43 +132,91 @@ const Assigncandidates = () => {
 
   return (
     <div className="container-fluid">
-      <Row>
-        <Col xs="3">
-          <Card className="card-stats">
-            <Card.Body>
-              <Row>
-                <Col xs="4">
-                  <div className="icon-big text-center icon-warning">
-                    <FcBullish size={70} />
-                  </div>
-                </Col>
-                <Col xs="4">
-                  <div className="numbers">
-                    <p></p>
-                    <Card.Title as="h4">2</Card.Title>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
-            <Card.Footer>
-              <div className="stats">
-                <i className="fas fa-redo mr-1"></i>
-                  Assigned
+      {/* <div className="container d-flex justify-content-center aligth-items-center">
+      <div className="col-md-4">
+        Hello
+        </div>
+      <div className="col-md-4">
+        Buddy
+        </div>
+    </div> */}
+
+
+
+      <div class="d-inline-flex p-2 bd-highlight">
+        <Card>
+          <Card.Body>
+            <div class="d-flex flex-row bd-highlight mb-3">
+              <div class="p-2 bd-highlight">
+                <div className="icon-big text-center icon-warning">
+                  <FcBullish size={70} />
+                </div>
               </div>
-            </Card.Footer>
-          </Card>
-        </Col >
-        <Col>
-          <ReactTable
-            data={appliedCandidates}
-            columns={appliedCandidatescolumns}
-            className='assignCandidateReactTable'
-            sortable={true}
-            defaultPageSize={5}
-          />
-          <ToastContainer />
-        </Col>
-      </Row>
+              <div class="p-2 bd-highlight">
+                <p></p>
+                <Card.Title as="h2">2</Card.Title>
+              </div>
+            </div>
+          </Card.Body>
+          <Card.Footer>
+            <div className="stats">
+              <i className="fas fa-redo mr-1"></i>
+                Assigned candidates
+            </div>
+          </Card.Footer>
+        </Card>
+      </div>
+
+      <div class="d-inline-flex p-2 bd-highlight">
+        <ReactTable
+          data={appliedCandidates}
+          columns={appliedCandidatescolumns}
+          // className='assignCandidateReactTable'
+          sortable={true}
+          defaultPageSize={5}
+          className="-striped -highlight assignCandidateReactTable"
+          resizable={false}
+        />
+        <ToastContainer />
+      </div>
+
+      {/* <Col xs="3">
+        <Card className="card-stats">
+          <Card.Body>
+            <Row>
+              <Col xs="4">
+                <div className="icon-big text-center icon-warning">
+                  <FcBullish size={70} />
+                </div>
+              </Col>
+              <Col xs="12">
+                <div className="numbers">
+                  <p></p>
+                  <Card.Title as="h4">2</Card.Title>
+                </div>
+              </Col>
+            </Row>
+          </Card.Body>
+          <Card.Footer>
+            <div className="stats">
+              <i className="fas fa-redo mr-1"></i>
+                Assigned
+            </div>
+          </Card.Footer>
+        </Card>
+      </Col >
+      <Col>
+        <ReactTable
+          data={appliedCandidates}
+          columns={appliedCandidatescolumns}
+          // className='assignCandidateReactTable'
+          sortable={true}
+          defaultPageSize={5}
+          className="-striped -highlight assignCandidateReactTable"
+          resizable={false}
+        />
+        <ToastContainer />
+      </Col> */}
     </div >
   )
 }

@@ -222,6 +222,7 @@ const Candidates = () => {
 							className='candidateReactTable'
 							sortable={true}
 							defaultPageSize={5}
+							resizable={false}
 						/>
 					</Col>
 				</Row>

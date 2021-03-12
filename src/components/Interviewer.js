@@ -136,6 +136,7 @@ const Interviewer = () => {
                 className='interviewerReactTable'
                 sortable={true}
                 defaultPageSize={5}
+                resizable={false}
             />
         </div >
     )

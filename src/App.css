@@ -51,7 +51,7 @@ a{
     }
   }
   
-  
+
   .loginsignup-form {
     top: 30px;
     left: 500px;
@@ -80,13 +80,21 @@ a{
     right: 40px;
 }
 
+
+.footer {
+  flex-shrink: 0;
+  text-align: center;
+  background-color: tomato;
+  color: white;
+}
+
 .footer {
     text-align: center;
     padding: 20px;
     background: rgb(231, 231, 231);
     color: black;
     width: 100%;
-    position: fixed; /* instead of absolute */
+    position: fixed;
     bottom: 0;
     left: 0;
   }
@@ -114,6 +122,7 @@ a{
 
 .ReactTable {
   top: 50px;
+  width: 92%;
 }
 
 .applyCandidateJob {
@@ -143,8 +152,8 @@ a{
 
 .assignCandidateReactTable {
   left: 15px;
-  top: 40px;
-  width: 95%;
+  top: -47px;
+  width: 100%;
 
 }
 
@@ -178,4 +187,38 @@ a{
 .profileCardBody {
   height: 300px;
   margin: auto;
+}
+
+/* .content {
+  padding: 20px;
+  min-height: calc(100vh - 170px);
+} */
+
+/* React table sortable */
+.ReactTable .rt-thead .rt-th.-sort-asc {
+  box-shadow: none !important;
+}
+.ReactTable .rt-thead .rt-th.-sort-asc::before {
+  content: "\2191";
+  position: absolute;
+  right: 5px;
+}
+
+.ReactTable .rt-thead .rt-th.-sort-desc {
+  box-shadow: none !important;
+}
+.ReactTable .rt-thead .rt-th.-sort-desc::before {
+  content: "\2193";
+  position: absolute;
+  right: 5px;
+}
+
+
+.jobsPieChart {
+  height: 50%;
+  width: 50%;
+}
+
+.totalJobDashboardCard {
+  top: -150px !important;
 }

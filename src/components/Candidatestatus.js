@@ -24,17 +24,19 @@ const Candidatestatus = () => {
                         interviewer: document.data().interviewer,
                         title: document.data().jobAssignTitle,
                         useremail: document.data().userEmail,
+                        candidatename: document.data().userEmail,
                         status: document.data().status,
                     };
                     fetchedCandidates.push(fetchedCandidate);
                 });
                 //(currentLoggedUser?.email === "hrjack@awr.com")) ? fetchedCandidates : setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email)));
-                if(currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com" || currentLoggedUser?.email === "iwrtechy@awr.com" ){
+                if(currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com" ){
                     setCandidate(fetchedCandidates)
                 }
                 else {
-                    setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
+                    setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.interviewer == capUserName) ));
                 }
+                debugger
                 //setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
             })
     }
@@ -56,7 +58,7 @@ const Candidatestatus = () => {
                     Candidate Name
                 </div>
             ),
-            accessor: 'useremail',
+            accessor: 'candidatename',
             className: 'font',
             width: 200,
             Cell: row => <div className="text-center h-6">{(row.value).split("@")[0]}</div>,
@@ -69,7 +71,7 @@ const Candidatestatus = () => {
             ),
             accessor: 'useremail',
             className: 'font',
-            width: 250,
+            width: 230,
             Cell: row => <div className="text-center h-6">{row.value}</div>,
         },
         {
@@ -105,6 +107,7 @@ const Candidatestatus = () => {
                 className='statusCandidateReactTable'
                 sortable={true}
                 defaultPageSize={5}
+                resizable={false}
             />
         </div>
     )

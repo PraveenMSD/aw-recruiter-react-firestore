@@ -177,7 +177,7 @@ const Recruiter = () => {
 			),
 			accessor: 'entrylevel',
 			filterable: false,
-			width: 250,
+			width: 200,
 			Cell: row => <div className="text-center h-4">{row.value}</div>,
 		},
 		{
@@ -188,7 +188,7 @@ const Recruiter = () => {
 			),
 			accessor: 'view',
 			filterable: false,
-			width: 220,
+			width: 200,
 			// Cell: row => {row.value}
 		}
 	];
@@ -206,6 +206,7 @@ const Recruiter = () => {
 					className='ReactTable'
 					sortable={true}
 					defaultPageSize={5}
+					resizable={false}
 				/>
 			</div>
 			<ToastContainer />
