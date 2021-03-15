@@ -176,6 +176,7 @@ const Assigncandidates = () => {
           defaultPageSize={5}
           className="-striped -highlight assignCandidateReactTable"
           resizable={false}
+          showPageSizeOptions={false}
         />
         <ToastContainer />
       </div>

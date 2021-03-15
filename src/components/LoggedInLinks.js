@@ -38,8 +38,14 @@ const LoggedInLinks = () => {
             })
     }
 
+    const [Color, setColor] = useState([""])
+    const handleColor = e => {
+        setColor("black")
+
+    }
+
     return (
-        <div>
+        <div style={{color:Color}}  onClick={handleColor}>
             <ul>
                 {/* <li><Link to="/profile">Profile</Link></li>
                 <li><Link to="/recruiter">Recruiter</Link></li>
@@ -49,10 +55,10 @@ const LoggedInLinks = () => {
                 <li><Link to="/candidatestatus">Status</Link></li>
                 <li><Link to="/" onClick={handleClick}>Logout</Link></li> */}
                 {userRole === "hr" ?
-                    <li><Link to="/dashboard" >Dashboard</Link></li>
+                    <li><Link to="/dashboard"   >Dashboard</Link></li>
                     : ""}
                 {userRole === "hr" ?
-                    <li><Link to="/assigncandidates" >Interviewer</Link></li>
+                    <li><Link to="/assigncandidates"  >Interviewer</Link></li>
                     : ""}
                 {userRole === "interviewer" ?
                     <li><Link to="/interviewer" >Interview</Link></li>

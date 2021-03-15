@@ -222,3 +222,10 @@ a{
 .totalJobDashboardCard {
   top: -150px !important;
 }
+
+.navLink {
+  color: black;
+}
+.navLink:active {
+  color: blue;
+}

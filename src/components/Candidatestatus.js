@@ -108,6 +108,7 @@ const Candidatestatus = () => {
                 sortable={true}
                 defaultPageSize={5}
                 resizable={false}
+                showPageSizeOptions={false}
             />
         </div>
     )

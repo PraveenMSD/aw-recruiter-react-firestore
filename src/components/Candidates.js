@@ -223,6 +223,7 @@ const Candidates = () => {
 							sortable={true}
 							defaultPageSize={5}
 							resizable={false}
+							showPageSizeOptions={false}
 						/>
 					</Col>
 				</Row>

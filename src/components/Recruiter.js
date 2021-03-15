@@ -59,8 +59,8 @@ const Recruiter = () => {
 					var data = []
 					snapshot.docs.map((doc) => {
 						var view = (
-							<div className="text-center h-4"><button type='button' onClick={() => handleDelete(doc.id)}>
-								&#10005;
+							<div className="text-center h-4"><button type='button' className="btn btn-danger" onClick={() => handleDelete(doc.id)}>
+								Delete
 						</button></div>
 						)
 
@@ -207,6 +207,7 @@ const Recruiter = () => {
 					sortable={true}
 					defaultPageSize={5}
 					resizable={false}
+					showPageSizeOptions={false}
 				/>
 			</div>
 			<ToastContainer />
