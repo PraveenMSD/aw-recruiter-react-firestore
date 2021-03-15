@@ -5,6 +5,7 @@ import { firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { Ring } from 'react-spinners-css';
 
 
 const Recruiter = () => {
@@ -18,6 +19,7 @@ const Recruiter = () => {
 	let [totalopenings, setTotalOpenings] = useState('');
 	let [jobstatus, setJobStatus] = useState('');
 	let [entrylevel, setEntryLevel] = useState('');
+	const [loading, setLoading] = useState(true)
 	const offersRef = firestore.collection('jobs');
 	const addnotify = () => toast.success("Jobs added successfully");
 	const delnotify = () => toast.warn("Job deleted successfully");
@@ -53,32 +55,51 @@ const Recruiter = () => {
 	}
 
 	useEffect(() => {
-		(async () => {
-			await firestore.collection('jobs').get()
-				.then((snapshot) => {
-					var data = []
-					snapshot.docs.map((doc) => {
-						var view = (
-							<div className="text-center h-4"><button type='button' className="btn btn-danger" onClick={() => handleDelete(doc.id)}>
-								Delete
+		firestore.collection('jobs')
+			.onSnapshot((querySnapshot) => {
+				var data = []
+				querySnapshot.docs.map(doc => {
+					var view = (
+						<div className="text-center h-4"><button type='button' className="btn btn-danger" onClick={() => handleDelete(doc.id)}>
+							Delete
 						</button></div>
-						)
+					)
 
-						data.push({ ...doc.data(), id: doc.id, view })
-						setJobDetails([...data]);
+					data.push({ ...doc.data(), id: doc.id, view })
+					setJobDetails([...data]);
 
-					});
-				})
-				.catch((err) => {
-					console.log('Error getting documents', err);
+					setLoading(false)
 				});
-		})();
+			})
+		// await firestore.collection('jobs').get()
+		// 		.then((snapshot) => {
+		// 			var data = []
+		// 			snapshot.docs.map((doc) => {
+		// 				var view = (
+		// 					<div className="text-center h-4"><button type='button' className="btn btn-danger" onClick={() => handleDelete(doc.id)}>
+		// 						Delete
+		// 				</button></div>
+		// 				)
+
+		// 				data.push({ ...doc.data(), id: doc.id, view })
+		// 				setJobDetails([...data]);
+
+		// 			});
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log('Error getting documents', err);
+		// 		});
+		// })();
+
+
 	}, []);
 	const handleDelete = id => {
 		offersRef.doc(id)
 			.delete()
 		delnotify();
 	};
+
+	console.log(jobsDetails)
 
 
 	const BootstrapModal = () => (
@@ -121,7 +142,6 @@ const Recruiter = () => {
 			</Modal>
 		</div>
 	)
-
 
 	const jobDetailsTablecolumns = [
 		{
@@ -195,7 +215,7 @@ const Recruiter = () => {
 
 
 
-	return (
+	return !loading ? (
 		<>
 			<h4 className="recruiterTitle font-weight-bold">Jobs</h4>
 			{BootstrapModal()}
@@ -212,9 +232,9 @@ const Recruiter = () => {
 			</div>
 			<ToastContainer />
 		</>
-	);
+	) : (
+		<span><Ring className="center" color="black" size={100} /></span>
+	)
 }
-
-// render(<Recruiter />);
 
 export default Recruiter

@@ -18,6 +18,13 @@ const LoggedInLinks = () => {
     const [userRole, setUserRole] = useState("");
     const userName = currentUser ? currentUser.email : "";
 
+    const [dashboardColor, setdashboardColor] = useState("")
+    const [assignCandidatesColor, setassignCandidatesColor] = useState("")
+    const [interviewerColor, setinterviewerColor] = useState("")
+    const [candidatesColor, setcandidatesColor] = useState("")
+    const [recruiterColor, setrecruiterColor] = useState("")
+    const [candidatesStatusColor, setcandidatesStatusColor] = useState("")
+
     const history = useHistory()
 
     useEffect(() => {
@@ -38,38 +45,57 @@ const LoggedInLinks = () => {
             })
     }
 
-    const [Color, setColor] = useState([""])
-    const handleColor = e => {
-        setColor("black")
-
+    const setBlueColor = () => {
+        setdashboardColor("blue")
+        setassignCandidatesColor("blue")
+        setinterviewerColor("blue")
+        setcandidatesColor("blue")
+        setrecruiterColor("blue")
+        setcandidatesStatusColor("blue")
     }
 
+    const activeColor = (e, path) => {
+        if(path === "/dashboard"){
+            setBlueColor()
+            setdashboardColor("black")
+        } else if(path === "/assigncandidates"){
+            setBlueColor()
+            setassignCandidatesColor("black")
+        } else if(path === "/interviewer"){
+            setBlueColor()
+            setinterviewerColor("black")
+        } else if(path === "/candidates"){
+            setBlueColor()
+            setcandidatesColor("black")
+        } else if(path === "/recruiter"){
+            setBlueColor()
+            setrecruiterColor("black")
+        } else if(path === "/candidatestatus"){
+            setBlueColor()
+            setcandidatesStatusColor("black")
+        }
+    }
+
+
     return (
-        <div style={{color:Color}}  onClick={handleColor}>
+        <div>
             <ul>
-                {/* <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/recruiter">Recruiter</Link></li>
-                <li><Link to="/assigncandidates">Assign</Link></li>
-                <li><Link to="/candidates">Candidates</Link></li>
-                <li><Link to="/interviewer">Interviewer</Link></li>
-                <li><Link to="/candidatestatus">Status</Link></li>
-                <li><Link to="/" onClick={handleClick}>Logout</Link></li> */}
                 {userRole === "hr" ?
-                    <li><Link to="/dashboard"   >Dashboard</Link></li>
+                    <li><Link to="/dashboard" onClick={(e) => { activeColor(e, "/dashboard") }} style={{ color: dashboardColor }} >Dashboard</Link></li>
                     : ""}
                 {userRole === "hr" ?
-                    <li><Link to="/assigncandidates"  >Interviewer</Link></li>
+                    <li><Link to="/assigncandidates" onClick={(e) => { activeColor(e, "/assigncandidates") }} style={{ color: assignCandidatesColor }} >Interviewer</Link></li>
                     : ""}
                 {userRole === "interviewer" ?
-                    <li><Link to="/interviewer" >Interview</Link></li>
+                    <li><Link to="/interviewer" onClick={(e) => { activeColor(e, "/interviewer") }} style={{ color: interviewerColor }} >Interviews</Link></li>
                     : ""}
                 {userRole === "candidate" ?
-                    <li><Link to="/candidates" >Apply Jobs</Link></li>
+                    <li><Link to="/candidates" onClick={(e) => { activeColor(e, "/candidates") }} style={{ color: candidatesColor }} >Apply Jobs</Link></li>
                     : ""}
                 {userRole === "hr" ?
-                    <li><Link to="/recruiter">Jobs</Link></li>
+                    <li><Link to="/recruiter" onClick={(e) => { activeColor(e, "/recruiter") }} style={{ color: recruiterColor }} >Jobs</Link></li>
                     : ""}
-                <li><Link to="/candidatestatus" >Status</Link></li>
+                <li><Link to="/candidatestatus" onClick={(e) => { activeColor(e, "/candidatestatus") }} style={{ color: candidatesStatusColor }} >Status</Link></li>
                 <li>{userName}</li>
                 <li>
                     <Dropdown>

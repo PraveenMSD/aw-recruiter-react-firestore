@@ -8,15 +8,8 @@ import { auth } from '../firebase/config'
 
 const Header = () => {
 
-    // const [loading, setLoading] = useState(true)
-
     const currentUser = auth.currentUser
 
-
-
-    // if(currentUser) {
-    //     setLoading(false)
-    // }   className="mr-auto navLinks"
 
     const links = currentUser ? <LoggedInLinks /> : <SignedOutLinks />
     const userName = currentUser ? currentUser.email : "";
@@ -24,12 +17,12 @@ const Header = () => {
 
     // if(loading) {
     return (
-        <Navbar bg="light" variant="light">
+        <Navbar bg="light" expand="lg" variant="light">
             <Navbar.Brand href="#home">Awesome Recruiter</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto navLinks">
-                    {links}
+                    <Nav.Link >{links}</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

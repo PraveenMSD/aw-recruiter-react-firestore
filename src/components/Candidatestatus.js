@@ -2,6 +2,10 @@ import React, { useContext, useState, useEffect } from 'react'
 import { firestore, auth } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
+import { Ring } from 'react-spinners-css';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { CSVLink } from "react-csv";
 
 const Candidatestatus = () => {
 
@@ -9,6 +13,7 @@ const Candidatestatus = () => {
     const currentLoggedUser = auth.currentUser;
     const userName = currentLoggedUser?.email.split("@")[0];
     const capUserName = userName?.charAt(0).toUpperCase() + userName?.slice(1);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getCandidates();
@@ -30,16 +35,64 @@ const Candidatestatus = () => {
                     fetchedCandidates.push(fetchedCandidate);
                 });
                 //(currentLoggedUser?.email === "hrjack@awr.com")) ? fetchedCandidates : setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email)));
-                if(currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com" ){
+                if (currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com") {
                     setCandidate(fetchedCandidates)
                 }
                 else {
-                    setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.interviewer == capUserName) ));
+                    setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.interviewer == capUserName)));
                 }
-                debugger
+                setLoading(false)
                 //setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
             })
     }
+
+    console.log(appliedCandidates)
+
+    // Export Candidate status to PDF
+    const exportPDF = () => {
+        const unit = "pt";
+        const size = "A4";
+        const orientation = "portrait";
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "Canidate Status";
+        const headers = [["CANDIDATE NAME", "CANDIDATE EMAIL", "APPLIED POSITION", "ASSIGNED INTERVIEWER", "STATUS"]];
+
+        const data = appliedCandidates.map(elt => [(elt.candidatename).split("@")[0], elt.useremail, elt.title, elt.interviewer, elt.status]);
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("report.pdf")
+
+    }
+
+    // Export Candidate Status to CSV
+    const headers = [
+        { label: "CANDIDATE NAME", key: "candidatename" },
+        { label: "CANDIDATE EMAIL", key: "useremail" },
+        { label: "APPLIED POSITION", key: "title" },
+        { label: "ASSIGNED INTERVIEWER", key: "interviewer" },
+        { label: "STATUS", key: "status" }
+    ];
+
+    const data = appliedCandidates
+
+    const prettyLink = {
+        color: 'white'
+    };
+
+
+    console.log(appliedCandidates)
+
     const appliedCandidatescolumns = [
         {
             Header: () => (
@@ -98,19 +151,51 @@ const Candidatestatus = () => {
         }
     ];
 
+    return !loading ? (
 
-    return (
-        <div>
-            <ReactTable
-                data={appliedCandidates}
-                columns={appliedCandidatescolumns}
-                className='statusCandidateReactTable'
-                sortable={true}
-                defaultPageSize={5}
-                resizable={false}
-                showPageSizeOptions={false}
-            />
-        </div>
+        <div className="container-fluid">
+            <div className="d-flex flex-row-reverse bd-highlight allExportButton">
+                <div className="p-2 bd-highlight mr-5">
+                    <button className="btn btn-info exportPDFBtn" onClick={() => exportPDF()}>Generate Report</button>
+                </div>
+
+                <div className="p-2 bd-highlight">
+                    <button className="btn btn-info exportCSVBtn">
+                        <CSVLink data={data} headers={headers} style={prettyLink}>
+                            Generate CSV
+                        </CSVLink>
+                    </button>
+                </div>
+            </div>
+            <div className="d-flex bd-highlight">
+                <div class="d-inline-flex p-2 bd-highlight">
+                    <ReactTable
+                        data={appliedCandidates}
+                        columns={appliedCandidatescolumns}
+                        className='statusCandidateReactTable'
+                        sortable={true}
+                        defaultPageSize={5}
+                        resizable={false}
+                        showPageSizeOptions={false}
+                    />
+                </div>
+            </div>
+        </div >
+
+        // <div>
+        //     <button className="btn btn-info" onClick={() => exportPDF()}>Generate Report</button>
+        //     {/* <ReactTable
+        //         data={appliedCandidates}
+        //         columns={appliedCandidatescolumns}
+        //         className='statusCandidateReactTable'
+        //         sortable={true}
+        //         defaultPageSize={5}
+        //         resizable={false}
+        //         showPageSizeOptions={false}
+        //     /> */}
+        // </div>
+    ) : (
+        <span><Ring color="black" size={100} /></span>
     )
 }
 

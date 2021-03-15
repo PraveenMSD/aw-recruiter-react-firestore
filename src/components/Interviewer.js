@@ -3,12 +3,14 @@ import { auth, firestore } from '../firebase/config';
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
 import { UserContext } from '../providers/UserProvider'
+import { Ring } from 'react-spinners-css';
 
 const Interviewer = () => {
     const [appliedCandidates, setCandidate] = useState([]);
     const currentLoggedUser = auth.currentUser;
     const userName = currentLoggedUser?.email.split("@")[0];
     const capUserName = userName?.charAt(0).toUpperCase() + userName?.slice(1);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getCandidates();
@@ -54,6 +56,7 @@ const Interviewer = () => {
                 setCandidate(fetchedCandidates);
                 // .filter(user => user.online == true);
                 setCandidate(fetchedCandidates.filter(int => int.interviewer === capUserName));
+                setLoading(false)
             })
     }
 
@@ -128,7 +131,7 @@ const Interviewer = () => {
         }
     ];
 
-    return (
+    return !loading ? (
         <div>
             <ReactTable
                 data={appliedCandidates}
@@ -140,6 +143,8 @@ const Interviewer = () => {
                 showPageSizeOptions={false}
             />
         </div >
+    ) : (
+        <span><Ring color="black" size={100} /></span>
     )
 }
 

@@ -167,9 +167,9 @@ a{
 }
 
 .statusCandidateReactTable {
-  left: 120px;
-  top: 50px;
-  width: 82%;
+  left: 100px;
+  top: 20px;
+  width: 100%;
 }
 
 .jumbotron {
@@ -188,11 +188,6 @@ a{
   height: 300px;
   margin: auto;
 }
-
-/* .content {
-  padding: 20px;
-  min-height: calc(100vh - 170px);
-} */
 
 /* React table sortable */
 .ReactTable .rt-thead .rt-th.-sort-asc {
@@ -229,3 +224,27 @@ a{
 .navLink:active {
   color: blue;
 }
+
+.active{
+  color:#fcfcfc;
+}
+
+.center {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;  
+}
+
+.allExportButton {
+  position: relative;
+  right: 75px;
+}
+
+/* .exportPDFBtn {
+
+}
+
+.exportCSVBtn {
+} */

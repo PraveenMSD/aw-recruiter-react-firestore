@@ -9,6 +9,7 @@ import { Redirect } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import { Card, Row, Col } from "react-bootstrap";
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
+import { Ring } from 'react-spinners-css';
 
 const Candidates = () => {
 	const [JobTitle, setJobTitle] = useState('');
@@ -20,6 +21,7 @@ const Candidates = () => {
 	var userEmail = currentLoggedUser?.email || '';
 	const applynotify = () => toast.success("Applied successfully");
 	const [totalJobs, setTotalJob] = useState(0);
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		getUserRole()
@@ -47,6 +49,8 @@ const Candidates = () => {
 					fetchedJobs.push(fetchedJob);
 				});
 				setJobs(fetchedJobs.filter(open => open.openings > 0));
+
+				setLoading(false)
 			})
 	}
 	console.log(totalJobs)
@@ -163,7 +167,7 @@ const Candidates = () => {
 		}
 	];
 
-	return (
+	return !loading ? (
 		<div>
 			<div className="container">
 				<Row>
@@ -230,6 +234,8 @@ const Candidates = () => {
 			</div>
 			<ToastContainer />
 		</div>
+	) : (
+		<span><Ring color="black" size={100} /></span>
 	)
 }
 

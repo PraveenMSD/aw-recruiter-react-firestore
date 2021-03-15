@@ -6,6 +6,7 @@ import { UserContext } from '../providers/UserProvider'
 import { ToastContainer, toast } from 'react-toastify';
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
+import { Ring } from 'react-spinners-css';
 
 const Assigncandidates = () => {
 
@@ -15,6 +16,7 @@ const Assigncandidates = () => {
   var value = 'initial'
   const totalInterviewer = [];
   const notify = () => toast.success("Interviewer assigned successfully");
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getInterviewer();
@@ -53,6 +55,8 @@ const Assigncandidates = () => {
         });
 
         setCandidate(fetchedCandidates);
+
+        setLoading(false)
       })
   }
 
@@ -130,19 +134,8 @@ const Assigncandidates = () => {
     }
   ];
 
-  return (
+  return !loading ? (
     <div className="container-fluid">
-      {/* <div className="container d-flex justify-content-center aligth-items-center">
-      <div className="col-md-4">
-        Hello
-        </div>
-      <div className="col-md-4">
-        Buddy
-        </div>
-    </div> */}
-
-
-
       <div class="d-inline-flex p-2 bd-highlight">
         <Card>
           <Card.Body>
@@ -180,45 +173,9 @@ const Assigncandidates = () => {
         />
         <ToastContainer />
       </div>
-
-      {/* <Col xs="3">
-        <Card className="card-stats">
-          <Card.Body>
-            <Row>
-              <Col xs="4">
-                <div className="icon-big text-center icon-warning">
-                  <FcBullish size={70} />
-                </div>
-              </Col>
-              <Col xs="12">
-                <div className="numbers">
-                  <p></p>
-                  <Card.Title as="h4">2</Card.Title>
-                </div>
-              </Col>
-            </Row>
-          </Card.Body>
-          <Card.Footer>
-            <div className="stats">
-              <i className="fas fa-redo mr-1"></i>
-                Assigned
-            </div>
-          </Card.Footer>
-        </Card>
-      </Col >
-      <Col>
-        <ReactTable
-          data={appliedCandidates}
-          columns={appliedCandidatescolumns}
-          // className='assignCandidateReactTable'
-          sortable={true}
-          defaultPageSize={5}
-          className="-striped -highlight assignCandidateReactTable"
-          resizable={false}
-        />
-        <ToastContainer />
-      </Col> */}
     </div >
+  ) : (
+    <span><Ring color="black" size={100} /></span>
   )
 }
 

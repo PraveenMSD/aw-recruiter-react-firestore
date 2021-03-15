@@ -6,12 +6,11 @@ import { firestore } from '../firebase/config';
 import { Pie } from 'react-chartjs-2';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
+import { Ring } from 'react-spinners-css';
 
 
 const Dashboard = () => {
 
-	//const labelssArray = [];
-	//const dataaArray = [];
 	const item = "";
 
 	const [labelsArray, setlabelsArray] = useState([]);
@@ -20,6 +19,7 @@ const Dashboard = () => {
 	const [colorChart, setcolorChart] = useState([]);
 	const [isFirebaseInitialized, setFirebaseInitialized] = useState(false)
 	const [totalJobs, setTotalJob] = useState(0);
+	const [loading, setLoading] = useState(true)
 
 
 	useEffect(() => {
@@ -42,6 +42,7 @@ const Dashboard = () => {
 					setdataArray(prevStatee => ([...prevStatee, item.totalopenings]))
 					setTotalJob(prevState => prevState + parseInt(item.totalopenings))
 
+					setLoading(false)
 				})
 			})
 	}
@@ -71,18 +72,6 @@ const Dashboard = () => {
 	// }, []);
 
 
-	const getRandomColor = () => {
-		var letters = '0123456789ABCDEF'.split('');
-		var color = '#';
-		var colorsArray = [];
-		for (var i = 0; i < labelsArray.length; i++) {
-			color += letters[Math.floor(Math.random() * 16)];
-		}
-		colorsArray.push(color)
-		return colorsArray;
-	}
-
-
 	const data = {
 		labels:
 			labelsArray
@@ -104,7 +93,7 @@ const Dashboard = () => {
 	const userMsg = currentUser ? `${currentUser.email} ,Welcome back` : `No user is logged in`;
 
 
-	return (
+	return !loading ? (
 		<div className="container-fluid">
 			<div className="d-inline-flex p-2 bd-highlight jobsPieChart">
 				<Pie data={data} options={{
@@ -182,6 +171,8 @@ const Dashboard = () => {
 		//         </Col>
 		//     </Row>
 		// </Container>
+	) : (
+		<span><Ring color="black" size={100} /></span>
 	)
 }
 

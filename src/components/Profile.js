@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { auth, firestore } from "../firebase/config";
 import { Badge, Button, Card, Form, Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";
+import { Ring } from 'react-spinners-css';
 
 
 const Profile = () => {
@@ -12,9 +13,6 @@ const Profile = () => {
 	const [organization, setgetOrganization] = useState([]);
 	const [loading, setLoading] = useState(true)
 
-	const Loadingscreen = () => {
-		return !getUser ? true : false
-	}
 
 	useEffect(() => {
 		getUserName();
@@ -127,70 +125,9 @@ const Profile = () => {
 					</Card>
 				</div>
 			</div>
-
-			{/* <Container >
-				<Row>
-					<Col className="col-md-8">
-						<Card>
-							<Card.Header>Update Profile</Card.Header>
-							<Card.Body>
-								<form className="form-horizontal" onSubmit={(e) => {
-									handleSubmit(e, name, phone, designation, organization)
-								}}>
-									<div className="mb-3 row">
-										<label htmlFor="name-edit" className="col-sm-3 col-form-label">Name: </label>
-										<div className="col-sm-9">
-											<input onChange={handleChange} className="form-control" type="text" id="name-edit" name="name-edit" placeholder="Enter your name" defaultValue={getUser.name} />
-										</div>
-									</div>
-									<div className="mb-3 row">
-										<label htmlFor="email-edit" className="col-sm-3 col-form-label">Email: </label>
-										<div className="col-sm-9">
-											<input className="form-control" type="number" id="email-edit" name="email-edit" placeholder="Enter your email" defaultValue={auth.currentUser?.email} />
-										</div>
-									</div>
-									<div className="mb-3 row">
-										<label htmlFor="phone-edit" className="col-sm-3 col-form-label">Phone: </label>
-										<div className="col-sm-9">
-											<input onChange={handleChange} className="form-control" type="text" id="phone-edit" name="phone-edit" placeholder="Enter phone number" defaultValue={getUser.phone} />
-										</div>
-									</div>
-									<div className="mb-3 row">
-										<label htmlFor="designation-edit" className="col-sm-3 col-form-label">Designation: </label>
-										<div className="col-sm-9">
-											<input onChange={handleChange} className="form-control" type="text" id="designation-edit" name="designation-edit" placeholder="Enter desigation" defaultValue={getUser.designation} />
-										</div>
-									</div>
-									<div className="mb-3 row">
-										<label htmlFor="organization-edit" className="col-sm-3 col-form-label">Organization: </label>
-										<div className="col-sm-9">
-											<input onChange={handleChange} className="form-control" type="text" id="orgaization-edit" name="organization-edit" placeholder="Enter organization" defaultValue={getUser.organization} />
-										</div>
-									</div>
-									<div className="form-group text-center float-right">
-										<button className="btn btn-success" type="submit">Update</button>
-									</div>
-								</form>
-							</Card.Body>
-						</Card>
-					</Col>
-					<Col className="col-md-4">
-						<Card>
-							<Card.Header>Profile</Card.Header>
-							<Card.Body>
-								<FaUserAlt size="50px" className="col-md-12" />
-								<Card.Text className="text-center mt-3"><strong>{getUser.name}</strong></Card.Text>
-								<Card.Text className="text-center">{auth.currentUser?.email}</Card.Text>
-								<Card.Text className="text-center">{getUser.designation}</Card.Text>
-								<Card.Text className="text-center">{getUser.organization}</Card.Text>
-							</Card.Body>
-						</Card>
-					</Col>
-				</Row>
-			</Container> */}
 		</div>
 	) : (
-		<span>Loading...</span>
+		<span><Ring color="black" size={100} /></span>
 	)
 }
 
