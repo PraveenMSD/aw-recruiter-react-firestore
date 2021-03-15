@@ -14,10 +14,22 @@ const Candidatestatus = () => {
     const userName = currentLoggedUser?.email.split("@")[0];
     const capUserName = userName?.charAt(0).toUpperCase() + userName?.slice(1);
     const [loading, setLoading] = useState(true)
+    const [userRole, setuserRole] = useState("");
 
     useEffect(() => {
         getCandidates();
+        getUserRole();
     }, []);
+
+    const getUserRole = () => {
+        firestore.collection("users")
+            .doc(currentLoggedUser?.uid)
+            .get()
+            .then((document) => {
+                console.log(document.data().role)
+                setuserRole(document.data()?.role)
+            })
+    }
 
     const getCandidates = () => {
         firestore.collection('candidates').get()
@@ -156,15 +168,24 @@ const Candidatestatus = () => {
         <div className="container-fluid">
             <div className="d-flex flex-row-reverse bd-highlight allExportButton">
                 <div className="p-2 bd-highlight mr-5">
-                    <button className="btn btn-info exportPDFBtn" onClick={() => exportPDF()}>Generate Report</button>
+                    {userRole === "hr" ? (
+                        <button className="btn btn-info exportPDFBtn" onClick={() => exportPDF()}>Generate Report</button>
+                    ) : (
+                        ""
+                    )}
+                    {/* <button className="btn btn-info exportPDFBtn" onClick={() => exportPDF()}>Generate Report</button> */}
                 </div>
 
                 <div className="p-2 bd-highlight">
-                    <button className="btn btn-info exportCSVBtn">
-                        <CSVLink data={data} headers={headers} style={prettyLink}>
-                            Generate CSV
-                        </CSVLink>
-                    </button>
+                    {userRole === "hr" ? (
+                        <button className="btn btn-info exportCSVBtn">
+                            <CSVLink data={data} headers={headers} style={prettyLink}>
+                                Generate CSV
+                                            </CSVLink>
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
             <div className="d-flex bd-highlight">
@@ -181,21 +202,8 @@ const Candidatestatus = () => {
                 </div>
             </div>
         </div >
-
-        // <div>
-        //     <button className="btn btn-info" onClick={() => exportPDF()}>Generate Report</button>
-        //     {/* <ReactTable
-        //         data={appliedCandidates}
-        //         columns={appliedCandidatescolumns}
-        //         className='statusCandidateReactTable'
-        //         sortable={true}
-        //         defaultPageSize={5}
-        //         resizable={false}
-        //         showPageSizeOptions={false}
-        //     /> */}
-        // </div>
     ) : (
-        <span><Ring color="black" size={100} /></span>
+        <span><Ring color="gray" size={100} /></span>
     )
 }
 

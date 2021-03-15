@@ -73,6 +73,8 @@ const LoggedInLinks = () => {
         } else if(path === "/candidatestatus"){
             setBlueColor()
             setcandidatesStatusColor("black")
+        } else {
+            setBlueColor()
         }
     }
 
@@ -104,7 +106,7 @@ const LoggedInLinks = () => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="listRight">
-                            <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                            <Dropdown.Item ><Link to='/profile' onClick={(e) => { activeColor(e) }}>Profile</Link></Dropdown.Item>
                             <Dropdown.Item href="/" onClick={handleClick}>Logout</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

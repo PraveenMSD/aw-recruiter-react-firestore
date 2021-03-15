@@ -121,7 +121,8 @@ a{
 }
 
 .ReactTable {
-  top: 50px;
+  top: 10px;
+  left: 30px;
   width: 92%;
 }
 
@@ -152,9 +153,13 @@ a{
 
 .assignCandidateReactTable {
   left: 15px;
-  top: -47px;
+  top: -20px;
   width: 100%;
 
+}
+
+.assignedCard {
+  top: 28px;
 }
 
 .interviewerReactTable {
@@ -229,17 +234,15 @@ a{
   color:#fcfcfc;
 }
 
-.center {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height:100vh;  
-}
 
 .allExportButton {
   position: relative;
   right: 75px;
+}
+
+.addJobBtn {
+  position: relative;
+  right: 34px;
 }
 
 /* .exportPDFBtn {

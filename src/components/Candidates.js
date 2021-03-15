@@ -235,7 +235,7 @@ const Candidates = () => {
 			<ToastContainer />
 		</div>
 	) : (
-		<span><Ring color="black" size={100} /></span>
+		<span><Ring color="gray" size={100} /></span>
 	)
 }
 

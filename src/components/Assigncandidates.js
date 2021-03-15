@@ -137,7 +137,7 @@ const Assigncandidates = () => {
   return !loading ? (
     <div className="container-fluid">
       <div class="d-inline-flex p-2 bd-highlight">
-        <Card>
+        <Card className="assignedCard">
           <Card.Body>
             <div class="d-flex flex-row bd-highlight mb-3">
               <div class="p-2 bd-highlight">
@@ -175,7 +175,7 @@ const Assigncandidates = () => {
       </div>
     </div >
   ) : (
-    <span><Ring color="black" size={100} /></span>
+    <span><Ring color="gray" size={100} /></span>
   )
 }
 

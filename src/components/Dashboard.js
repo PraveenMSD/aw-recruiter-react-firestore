@@ -47,30 +47,6 @@ const Dashboard = () => {
 			})
 	}
 
-	// useEffect(() => {
-	//     (async () => {
-	//         await firestore.collection('jobs').get()
-	//             .then((snapshot) => {
-	//                 snapshot.docs.forEach(doc => {
-	//                     var item = doc.data();
-	//                     var jobtitle = item.jobtitle;
-
-	//                     setlabelsArray([item.jobtitle])
-	//                     //labelssArray.push(doc.data().jobtitle);
-	//                     //console.log(labelssArray)
-
-	//                     //var jobVacancy = item.totalopenings;
-	//                     //dataaArray.push(jobVacancy);
-	//                     setdataArray([...dataArray, item.totalopenings])
-
-
-	//                 })
-	//                 console.log(dataArray, '**********************************')
-	//                 console.log(labelsArray, '**********************************')
-	//             })
-	//     })();
-	// }, []);
-
 
 	const data = {
 		labels:
@@ -150,29 +126,8 @@ const Dashboard = () => {
 				</Card>
 			</div>
 		</div>
-		// <Container>
-		//     <Row>
-		//         <Col>
-		//             <div className="jumbotron">
-		//                 <h1 class="display-4">Hello, {currentUser?.email}</h1>
-		//                 <p class="lead">This is a simple ATS developed using React and Firebase.</p>
-		//                 <hr class="my-4" />
-		//                 <ul>
-		//                     <li>HR - Can access all pages.</li>
-		//                     <li>Interviewer- Can access only "Interviewer" page.</li>
-		//                     <li>Candidates - Can access only "Candidates & Status" page.</li>
-		//                 </ul>
-		//             </div>
-		//         </Col>
-		//         <Col>
-		//             <div>
-		//                 <Pie className="jobsPieChart" data={data} width={1} height={1} />
-		//             </div>
-		//         </Col>
-		//     </Row>
-		// </Container>
 	) : (
-		<span><Ring color="black" size={100} /></span>
+		<span><Ring color="gray" size={100} /></span>
 	)
 }
 

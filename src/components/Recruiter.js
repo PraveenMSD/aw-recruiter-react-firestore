@@ -71,25 +71,6 @@ const Recruiter = () => {
 					setLoading(false)
 				});
 			})
-		// await firestore.collection('jobs').get()
-		// 		.then((snapshot) => {
-		// 			var data = []
-		// 			snapshot.docs.map((doc) => {
-		// 				var view = (
-		// 					<div className="text-center h-4"><button type='button' className="btn btn-danger" onClick={() => handleDelete(doc.id)}>
-		// 						Delete
-		// 				</button></div>
-		// 				)
-
-		// 				data.push({ ...doc.data(), id: doc.id, view })
-		// 				setJobDetails([...data]);
-
-		// 			});
-		// 		})
-		// 		.catch((err) => {
-		// 			console.log('Error getting documents', err);
-		// 		});
-		// })();
 
 
 	}, []);
@@ -99,14 +80,16 @@ const Recruiter = () => {
 		delnotify();
 	};
 
-	console.log(jobsDetails)
-
 
 	const BootstrapModal = () => (
-		<div>
-			<Button className="addJobBtn" variant="primary" onClick={handleShow}>
-				Add job
-			</Button>
+		<>
+			<div className="d-flex bd-highlight">
+				<div className="ml-auto p-2 bd-highlight addJobBtn">
+					<Button className="addJobBtn" variant="primary" onClick={handleShow}>
+						Add job
+					</Button>
+				</div>
+			</div>
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>New Job</Modal.Title>
@@ -140,7 +123,7 @@ const Recruiter = () => {
 					</form>
 				</Modal.Body>
 			</Modal>
-		</div>
+		</>
 	)
 
 	const jobDetailsTablecolumns = [
@@ -217,7 +200,7 @@ const Recruiter = () => {
 
 	return !loading ? (
 		<>
-			<h4 className="recruiterTitle font-weight-bold">Jobs</h4>
+			{/* <h4 className="recruiterTitle font-weight-bold">Jobs</h4> */}
 			{BootstrapModal()}
 			<div className="container text-center">
 				<ReactTable
@@ -233,7 +216,7 @@ const Recruiter = () => {
 			<ToastContainer />
 		</>
 	) : (
-		<span><Ring className="center" color="black" size={100} /></span>
+		<span><Ring color="gray" size={100} /></span>
 	)
 }
 

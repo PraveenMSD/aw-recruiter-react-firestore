@@ -83,7 +83,7 @@ const Profile = () => {
 								<div className="mb-3 d-flex">
 									<label htmlFor="email-edit" className="col-sm-3 col-form-label">Email: </label>
 									<div className="col-sm-9">
-										<input className="form-control" type="number" id="email-edit" name="email-edit" placeholder="Enter your email" defaultValue={auth.currentUser?.email} />
+										<input className="form-control" type="email" id="email-edit" name="email-edit" placeholder="Enter your email" defaultValue={auth.currentUser?.email} readOnly />
 									</div>
 								</div>
 								<div className="mb-3 d-flex">
@@ -127,7 +127,7 @@ const Profile = () => {
 			</div>
 		</div>
 	) : (
-		<span><Ring color="black" size={100} /></span>
+		<span><Ring color="gray" size={100} /></span>
 	)
 }
 
