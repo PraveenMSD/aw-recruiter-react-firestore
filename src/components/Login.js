@@ -18,19 +18,18 @@ const Login = () => {
       firestore
         .collection("users")
         .doc(userAuth.user.uid)
-        .get()
-        .then((user) => {
+        .onSnapshot((querySnapshot) => {
           setCurrentUser({
             ...currentUser,
-            name: user.data().name,
-            userRole: user.data().role,
+            name: querySnapshot.data().name,
+            userRole: querySnapshot.data().role,
           });
-          userRole = user.data().role;
-          if (user.data().role === "hr") {
+          userRole = querySnapshot.data().role;
+          if (querySnapshot.data().role === "hr") {
             history.push("/dashboard");
-          } else if (user.data().role === "interviewer") {
+          } else if (querySnapshot.data().role === "interviewer") {
             history.push("/interviewer");
-          } else if (user.data().role === "candidate") {
+          } else if (querySnapshot.data().role === "candidate") {
             history.push("/candidates");
           }
         });

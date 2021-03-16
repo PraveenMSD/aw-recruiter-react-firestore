@@ -26,9 +26,8 @@ const Dashboard = () => {
   const getJobsForCandidates = async () => {
     firestore
       .collection("jobs")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docs.map((doc) => {
           var item = doc.data();
           var jobtitle = item.jobtitle;
           setlabelsArray((prevState) => [...prevState, item.jobtitle]);

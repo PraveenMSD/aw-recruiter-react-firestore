@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <Navbar bg="light" expand="lg" variant="light">
-      <Navbar.Brand href="/profile">Awesome Recruiter</Navbar.Brand>
+      <Navbar.Brand href="/home">Awesome Recruiter</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto navLinks">

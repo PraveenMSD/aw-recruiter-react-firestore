@@ -25,6 +25,7 @@ import "react-toolbox/lib/table";
 import { auth, firestore } from "./firebase/config";
 import Dashboard from "./components/Dashboard";
 import Profile from "./components/Profile";
+import Home from "./components/Home";
 
 function App(props) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -40,11 +41,10 @@ function App(props) {
       firestore
         .collection("users")
         .doc(user.uid)
-        .get()
-        .then((user) => {
+        .onSnapshot((querySnapshot) => {
           setCurrentUser({
-            name: user.data().name,
-            userRole: user.data().role,
+            name: querySnapshot.data().name,
+            userRole: querySnapshot.data().role,
           });
         });
     });
@@ -58,6 +58,7 @@ function App(props) {
           <br />
           <br />
           <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Home} />
           {/* <Route exact path="/dashboard" render={() => (currentUser?.userRole === "hr" ? (<Dashboard />) : (<Redirect to="/profile" />))} /> */}
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/signup" component={SignUp} />

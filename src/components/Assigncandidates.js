@@ -22,42 +22,39 @@ const Assigncandidates = () => {
   }, []);
 
   const getCandidates = (fetchedUsers) => {
-    firestore
-      .collection("candidates")
-      .get()
-      .then((response) => {
-        const fetchedCandidates = [];
-        response.docs.forEach((document) => {
-          const fetchedCandidate = {
-            id: document.id,
-            email: document.data().userEmail,
-            candidateName: document.data().userEmail,
-            openings: document.data().jobAssignTitle,
-            assignedTo: document.data().interviewer,
-            select: (
-              <select onClick={(e) => handleChange(e, document.id)}>
-                {fetchedUsers.length !== 0 &&
-                  fetchedUsers.map((data) => (
-                    <option
-                      id="selectedValue"
-                      name="selectedValue"
-                      value={data.name}
-                      selected={document.data().interviewer === data.name}
-                    >
-                      {data.name}
-                    </option>
-                  ))}
-              </select>
-            ),
-          };
-          totalInterviewer.push(document.data().interviewer);
-          fetchedCandidates.push(fetchedCandidate);
-        });
-
-        setCandidate(fetchedCandidates);
-
-        setLoading(false);
+    firestore.collection("candidates").onSnapshot((querySnapshot) => {
+      const fetchedCandidates = [];
+      querySnapshot.docs.map((document) => {
+        const fetchedCandidate = {
+          id: document.id,
+          email: document.data().userEmail,
+          candidateName: document.data().userEmail,
+          openings: document.data().jobAssignTitle,
+          assignedTo: document.data().interviewer,
+          select: (
+            <select onClick={(e) => handleChange(e, document.id)}>
+              {fetchedUsers.length !== 0 &&
+                fetchedUsers.map((data) => (
+                  <option
+                    id="selectedValue"
+                    name="selectedValue"
+                    value={data.name}
+                    selected={document.data().interviewer === data.name}
+                  >
+                    {data.name}
+                  </option>
+                ))}
+            </select>
+          ),
+        };
+        totalInterviewer.push(document.data().interviewer);
+        fetchedCandidates.push(fetchedCandidate);
       });
+
+      setCandidate(fetchedCandidates);
+
+      setLoading(false);
+    });
   };
 
   const getInterviewer = () => {
@@ -120,6 +117,15 @@ const Assigncandidates = () => {
       ),
       accessor: "openings",
       className: "font",
+      width: 150,
+      Cell: (row) => <div className="text-center h-6">{row.value}</div>,
+    },
+    {
+      Header: () => (
+        <div className="text-center font-weight-bold">Applied position</div>
+      ),
+      accessor: "assignedTo",
+      className: "font",
       width: 200,
       Cell: (row) => <div className="text-center h-6">{row.value}</div>,
     },
@@ -129,7 +135,7 @@ const Assigncandidates = () => {
       ),
       accessor: "select",
       className: "font",
-      width: 200,
+      width: 150,
       Cell: (row) => <div className="text-center h-6">{row.value}</div>,
     },
   ];

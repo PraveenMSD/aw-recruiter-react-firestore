@@ -34,9 +34,8 @@ const Profile = () => {
         firestore
           .collection("users")
           .doc(user.uid)
-          .get()
-          .then((document) => {
-            userD = document.data();
+          .onSnapshot((querySnapshot) => {
+            userD = querySnapshot.data();
             setgetName(userD.name);
             setgetPhone(userD.phone);
             setgetDesignation(userD.designation);

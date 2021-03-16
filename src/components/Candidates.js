@@ -30,10 +30,9 @@ const Candidates = () => {
   const getJobsForCandidates = () => {
     firestore
       .collection("jobs")
-      .get()
-      .then((response) => {
+      .onSnapshot((querySnapshot) => {
         const fetchedJobs = [];
-        response.docs.forEach((document) => {
+        querySnapshot.docs.map((document) => {
           const fetchedJob = {
             id: document.id,
             jobAssignTitle: document.data().jobtitle,
@@ -80,9 +79,8 @@ const Candidates = () => {
         firestore
           .collection("users")
           .doc(user.uid)
-          .get()
-          .then((document) => {
-            getRole(document.data().role);
+          .onSnapshot((querySnapshot) => {
+            getRole(querySnapshot.data().role);
           });
       }
     });

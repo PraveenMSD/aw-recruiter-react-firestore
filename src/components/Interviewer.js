@@ -33,10 +33,9 @@ const Interviewer = () => {
   const getCandidates = () => {
     firestore
       .collection("candidates")
-      .get()
-      .then((response) => {
+      .onSnapshot((querySnapshot) => {
         const fetchedCandidates = [];
-        response.docs.forEach((document) => {
+        querySnapshot.docs.map((document) => {
           const fetchedCandidate = {
             id: document.id,
             interviewer: document.data().interviewer,

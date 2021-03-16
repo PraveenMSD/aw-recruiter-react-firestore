@@ -24,19 +24,19 @@ const Candidatestatus = () => {
     firestore
       .collection("users")
       .doc(currentLoggedUser?.uid)
-      .get()
-      .then((document) => {
-        setuserRole(document.data()?.role);
+      .onSnapshot((querySnapshot) => {
+        setuserRole(querySnapshot.data()?.role);
       });
   };
+
+  console.log(userRole)
 
   const getCandidates = () => {
     firestore
       .collection("candidates")
-      .get()
-      .then((response) => {
+      .onSnapshot((querySnapshot) => {
         const fetchedCandidates = [];
-        response.docs.forEach((document) => {
+        querySnapshot.docs.map((document) => {
           const fetchedCandidate = {
             id: document.id,
             interviewer: document.data().interviewer,
