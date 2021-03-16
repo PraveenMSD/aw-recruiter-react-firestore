@@ -3,21 +3,15 @@ import { auth, firestore } from "../firebase/config";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 import { UserContext } from "../providers/UserProvider";
-import { Bar } from "react-chartjs-2";
-import { getUserRole } from "../firebase/functions";
-import { Redirect } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
 import { Ring } from "react-spinners-css";
 
 const Candidates = () => {
-  const [JobTitle, setJobTitle] = useState("");
   const [jobs, setJobs] = useState([]);
-  const [jobAssignTitle, setAssignJobTitle] = useState("");
   const [role, getRole] = useState("");
   const currentLoggedUser = auth.currentUser;
-  const { currentUser } = useContext(UserContext);
   var userEmail = currentLoggedUser?.email || "";
   const [totalJobs, setTotalJob] = useState(0);
   const [loading, setLoading] = useState(true);

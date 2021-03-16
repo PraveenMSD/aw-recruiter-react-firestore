@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { firestore, auth } from "../firebase/config";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
@@ -57,7 +57,7 @@ const Candidatestatus = () => {
             fetchedCandidates.filter(
               (email) =>
                 email.useremail === currentLoggedUser?.email ||
-                email.interviewer == capUserName
+                email.interviewer === capUserName
             )
           );
         }

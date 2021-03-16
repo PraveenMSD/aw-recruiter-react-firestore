@@ -24,7 +24,6 @@ const Login = () => {
             name: querySnapshot.data().name,
             userRole: querySnapshot.data().role,
           });
-          userRole = querySnapshot.data().role;
           if (querySnapshot.data().role === "hr") {
             history.push("/dashboard");
           } else if (querySnapshot.data().role === "interviewer") {
@@ -38,9 +37,9 @@ const Login = () => {
 
   const handleChange = (e) => {
     if (e.target.id === "email-login") {
-      email = e.target.value;
+      setEmail(e.target.value)
     } else {
-      password = e.target.value;
+      setPassword(e.target.value)
     }
   };
 

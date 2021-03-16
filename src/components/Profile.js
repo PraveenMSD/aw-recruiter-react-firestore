@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth, firestore } from "../firebase/config";
-import {
-  Badge,
-  Button,
-  Card,
-  Form,
-  Navbar,
-  Nav,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";
 import { Ring } from "react-spinners-css";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,7 +18,6 @@ const Profile = () => {
 
   const getUserName = () => {
     var userD;
-    const uid = auth.currentUser?.uid;
     auth.onAuthStateChanged(function (user) {
       if (user) {
         firestore

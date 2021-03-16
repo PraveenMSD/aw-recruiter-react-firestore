@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Button, ButtonToolbar, Modal } from "react-bootstrap";
-import { UserContext } from "../providers/UserProvider";
+import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { firestore } from "../firebase/config";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";

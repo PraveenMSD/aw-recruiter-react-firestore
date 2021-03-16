@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase/config";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
-import { UserContext } from "../providers/UserProvider";
 import { Ring } from "react-spinners-css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -16,75 +15,57 @@ const Interviewer = () => {
 
   useEffect(() => {
     getCandidates();
-    // fileterInterviewer();
-    // appliedCandidates.filter(interviewer => interviewer === userName)
   }, []);
 
-  // setStonesToShow(currentStones => {
-  //     return currentStones.filter(item => item.type === stoneType.checked && stoneColor.checked)
-  //  })
-
-  const options = [
-    { value: "Selected" },
-    { value: "Rejected" },
-    { value: "On-Hold" },
-  ];
-
   const getCandidates = () => {
-    firestore
-      .collection("candidates")
-      .onSnapshot((querySnapshot) => {
-        const fetchedCandidates = [];
-        querySnapshot.docs.map((document) => {
-          const fetchedCandidate = {
-            id: document.id,
-            interviewer: document.data().interviewer,
-            title: document.data().jobAssignTitle,
-            useremail: document.data().userEmail,
-            selectedstatus: document.data().status,
-            select: (
-              <div className="text-center h-6">
-                <select onClick={(e) => handleChange(e, document.id)}>
-                  <option
-                    id="selectedValue"
-                    name="selectedValue"
-                    value="Please select"
-                  >
-                    Please select...
-                  </option>
-                  <option
-                    id="selectedValue"
-                    name="selectedValue"
-                    value="Selected"
-                  >
-                    Selected
-                  </option>
-                  <option
-                    id="selectedValue"
-                    name="selectedValue"
-                    value="Rejected"
-                  >
-                    Rejected
-                  </option>
-                  <option
-                    id="selectedValue"
-                    name="selectedValue"
-                    value="On-Hold"
-                  >
-                    On-Hold
-                  </option>
-                </select>
-              </div>
-            ),
-          };
-          fetchedCandidates.push(fetchedCandidate);
-        });
-        setCandidate(fetchedCandidates);
-        setCandidate(
-          fetchedCandidates.filter((int) => int.interviewer === capUserName)
-        );
-        setLoading(false);
+    firestore.collection("candidates").onSnapshot((querySnapshot) => {
+      const fetchedCandidates = [];
+      querySnapshot.docs.map((document) => {
+        const fetchedCandidate = {
+          id: document.id,
+          interviewer: document.data().interviewer,
+          title: document.data().jobAssignTitle,
+          useremail: document.data().userEmail,
+          selectedstatus: document.data().status,
+          select: (
+            <div className="text-center h-6">
+              <select onClick={(e) => handleChange(e, document.id)}>
+                <option
+                  id="selectedValue"
+                  name="selectedValue"
+                  value="Please select"
+                >
+                  Please select...
+                </option>
+                <option
+                  id="selectedValue"
+                  name="selectedValue"
+                  value="Selected"
+                >
+                  Selected
+                </option>
+                <option
+                  id="selectedValue"
+                  name="selectedValue"
+                  value="Rejected"
+                >
+                  Rejected
+                </option>
+                <option id="selectedValue" name="selectedValue" value="On-Hold">
+                  On-Hold
+                </option>
+              </select>
+            </div>
+          ),
+        };
+        fetchedCandidates.push(fetchedCandidate);
       });
+      setCandidate(fetchedCandidates);
+      setCandidate(
+        fetchedCandidates.filter((int) => int.interviewer === capUserName)
+      );
+      setLoading(false);
+    });
   };
 
   const handleChange = async (e, id) => {

@@ -1,11 +1,10 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import {
   BrowserRouter,
   Route,
-  Switch,
   useHistory,
   Redirect,
 } from "react-router-dom";
@@ -29,8 +28,6 @@ import Home from "./components/Home";
 
 function App(props) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const history = useHistory();
 
   useEffect(() => {
     getUserRole();

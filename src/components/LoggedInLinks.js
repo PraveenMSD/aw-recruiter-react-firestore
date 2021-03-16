@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../providers/UserProvider";
 import { auth } from "../firebase/config";
-import SignedOutLinks from "./SignedOutLinks";
 import { firestore } from "../firebase/config";
 import { Dropdown } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";

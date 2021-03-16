@@ -4,15 +4,13 @@ import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 import { UserContext } from "../providers/UserProvider";
 import { ToastContainer, toast } from "react-toastify";
-import { Container, Card, Row, Col } from "react-bootstrap";
-import { FcBullish, BsFillHeartFill } from "react-icons/all";
+import { Card } from "react-bootstrap";
+import { FcBullish } from "react-icons/all";
 import { Ring } from "react-spinners-css";
 
 const Assigncandidates = () => {
   const [appliedCandidates, setCandidate] = useState([]);
   const { currentUser } = useContext(UserContext);
-  var userEmail = currentUser?.email || "";
-  var value = "initial";
   const totalInterviewer = [];
   const notify = () => toast.success("Interviewer assigned successfully");
   const [loading, setLoading] = useState(true);
