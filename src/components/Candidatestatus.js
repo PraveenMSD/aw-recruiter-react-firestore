@@ -29,40 +29,38 @@ const Candidatestatus = () => {
       });
   };
 
-  console.log(userRole)
+  console.log(userRole);
 
   const getCandidates = () => {
-    firestore
-      .collection("candidates")
-      .onSnapshot((querySnapshot) => {
-        const fetchedCandidates = [];
-        querySnapshot.docs.map((document) => {
-          const fetchedCandidate = {
-            id: document.id,
-            interviewer: document.data().interviewer,
-            title: document.data().jobAssignTitle,
-            useremail: document.data().userEmail,
-            candidatename: document.data().userEmail,
-            status: document.data().status,
-          };
-          fetchedCandidates.push(fetchedCandidate);
-        });
-        if (
-          currentLoggedUser == null ||
-          currentLoggedUser?.email === "hrjack@awr.com"
-        ) {
-          setCandidate(fetchedCandidates);
-        } else {
-          setCandidate(
-            fetchedCandidates.filter(
-              (email) =>
-                email.useremail === currentLoggedUser?.email ||
-                email.interviewer === capUserName
-            )
-          );
-        }
-        setLoading(false);
+    firestore.collection("candidates").onSnapshot((querySnapshot) => {
+      const fetchedCandidates = [];
+      querySnapshot.docs.map((document) => {
+        const fetchedCandidate = {
+          id: document.id,
+          interviewer: document.data().interviewer,
+          title: document.data().jobAssignTitle,
+          useremail: document.data().userEmail,
+          candidatename: document.data().userEmail,
+          status: document.data().status,
+        };
+        fetchedCandidates.push(fetchedCandidate);
       });
+      if (
+        currentLoggedUser == null ||
+        currentLoggedUser?.email === "hrjack@awr.com"
+      ) {
+        setCandidate(fetchedCandidates);
+      } else {
+        setCandidate(
+          fetchedCandidates.filter(
+            (email) =>
+              email.useremail === currentLoggedUser?.email ||
+              email.interviewer === capUserName
+          )
+        );
+      }
+      setLoading(false);
+    });
   };
 
   // Export Candidate status to PDF
@@ -164,7 +162,14 @@ const Candidatestatus = () => {
       accessor: "status",
       className: "font",
       width: 200,
-      Cell: (row) => <div className="text-center h-6">{row.value}</div>,
+      Cell: (row) => (
+        <div
+          className="text-center h-6"
+          style={{ background: row.value === "Selected" ? "green" : "red" }}
+        >
+          {row.value}
+        </div>
+      ),
     },
   ];
 

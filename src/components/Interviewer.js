@@ -118,7 +118,14 @@ const Interviewer = () => {
       accessor: "selectedstatus",
       className: "font",
       width: 140,
-      Cell: (row) => <div className="text-center h-6">{row.value}</div>,
+      Cell: (row) => (
+        <div
+          className="text-center h-6"
+          style={{ background: row.value === "Selected" ? "green" : "red" }}
+        >
+          {row.value}
+        </div>
+      ),
     },
     {
       Header: () => (
