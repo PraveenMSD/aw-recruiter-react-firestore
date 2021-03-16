@@ -21,23 +21,25 @@ const Recruiter = () => {
 	let [entrylevel, setEntryLevel] = useState('');
 	const [loading, setLoading] = useState(true)
 	const offersRef = firestore.collection('jobs');
-	const addnotify = () => toast.success("Jobs added successfully");
-	const delnotify = () => toast.warn("Job deleted successfully");
-	const emptynotify = () => toast.error("Fields cannot be empty");
 
 	const handleSubmit = (e, jobtitle, totalopenings, jobstatus, entrylevel) => {
 		e.preventDefault();
-		if (jobtitle, totalopenings, jobstatus, entrylevel == "") {
-			emptynotify()
+		if (jobtitle === "") {
+			toast.error("Job title cannot be empty")
+		} else if (totalopenings === "") {
+			toast.error("Total openings cannot be empty")
+		} else if (jobstatus === "") {
+			toast.error("Please choose job status")
+		} else if (entrylevel === "") {
+			toast.error("Please choose entry level")
 		} else {
 			firestore.collection('jobs')
 				.doc()
 				.set({ jobtitle, totalopenings, jobstatus, entrylevel })
 				.then(() => handleClose()
-
 				)
 				.catch((err) => { console.log(err) })
-			addnotify();
+			toast.success("Jobs added successfully");
 		}
 	}
 
@@ -47,10 +49,9 @@ const Recruiter = () => {
 			setJobTitle(e.target.value);
 		} else if (e.target.id === 'totalopenings-create') {
 			setTotalOpenings(parseInt(e.target.value));
-		} else if (e.target.id === 'jobstatus-create') {
-			setJobStatus(e.target.value);
-		} else {
+		} else if (e.target.id === 'entrylevel-create') {
 			setEntryLevel(e.target.value);
+			setJobStatus("Active")
 		}
 	}
 
@@ -77,7 +78,7 @@ const Recruiter = () => {
 	const handleDelete = id => {
 		offersRef.doc(id)
 			.delete()
-		delnotify();
+		toast.warn("Job deleted successfully");
 	};
 
 
@@ -100,19 +101,20 @@ const Recruiter = () => {
 					}}>
 						<div className="form-group">
 							<label htmlFor="jobtitle-create">Job Title</label>
-							<input onChange={handleChange} className="form-control" type="text" id="jobtitle-create" name="jobtitle-create" placeholder="Enter Job Title" />
+							<input onChange={handleChange} className="form-control" type="text" id="jobtitle-create" name="jobtitle-create" placeholder="Enter Job Title" required={true} />
 						</div>
 						<div className="form-group">
 							<label htmlFor="totalopenings-create">Total Openings</label>
-							<input onChange={handleChange} className="form-control" type="number" id="totalopenings-create" name="totalopenings-create" placeholder="Enter Total Openings" />
-						</div>
-						<div className="form-group">
-							<label htmlFor="jobstatus-create">Job Status</label>
-							<input onChange={handleChange} className="form-control" type="text" id="jobstatus-create" name="jobstatus-create" placeholder="Enter Status" />
+							<input onChange={handleChange} className="form-control" type="number" id="totalopenings-create" name="totalopenings-create" placeholder="Enter Total Openings" required={true} />
 						</div>
 						<div className="form-group">
 							<label htmlFor="entrylevel-create">Entry Level</label>
-							<input onChange={handleChange} className="form-control" type="text" id="entrylevel-create" name="entrylevel-create" placeholder="Enter entry Level" />
+
+							<select className="form-control" type="text" id="entrylevel-create" name="entrylevel-create" onClick={(e) => handleChange(e)}>
+								<option id="selectedValue" name="selectedValue" value="Please select" >Please select...</option>
+								<option id="selectedValue" name="selectedValue" value="Fresher"  >Fresher</option>
+								<option id="selectedValue" name="selectedValue" value="Experience"  >Experience</option>
+							</select>
 						</div>
 						<div className="form-group text-center">
 							<Button variant="secondary" onClick={handleClose}>
@@ -200,13 +202,12 @@ const Recruiter = () => {
 
 	return !loading ? (
 		<>
-			{/* <h4 className="recruiterTitle font-weight-bold">Jobs</h4> */}
 			{BootstrapModal()}
 			<div className="container text-center">
 				<ReactTable
 					data={jobsDetails}
 					columns={jobDetailsTablecolumns}
-					className='ReactTable'
+					className='-striped -highlight ReactTable'
 					sortable={true}
 					defaultPageSize={5}
 					resizable={false}

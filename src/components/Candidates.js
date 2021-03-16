@@ -19,7 +19,6 @@ const Candidates = () => {
 	const currentLoggedUser = auth.currentUser;
 	const { currentUser } = useContext(UserContext);
 	var userEmail = currentLoggedUser?.email || '';
-	const applynotify = () => toast.success("Applied successfully");
 	const [totalJobs, setTotalJob] = useState(0);
 	const [loading, setLoading] = useState(true)
 
@@ -41,7 +40,6 @@ const Candidates = () => {
 						level: document.data().entrylevel,
 						appliedemails: document.data().appliedemails,
 						apply: (
-							// (emBool === true && jbBool === true) ?
 							(document.data().appliedemails === currentLoggedUser?.email) ? "Applied" : <button className="btn btn-success" id={document.data().jobtitle} onClick={(e) => handleSubmit(e, userEmail, document.data().jobtitle, document.id, document.data().totalopenings, document.data().appliedemails)}>Apply</button>
 						),
 					};
@@ -53,7 +51,6 @@ const Candidates = () => {
 				setLoading(false)
 			})
 	}
-	console.log(totalJobs)
 
 	const getUserRole = () => {
 		auth.onAuthStateChanged(function (user) {
@@ -85,30 +82,8 @@ const Candidates = () => {
 			.doc()
 			.set({ userEmail, jobAssignTitle })
 			.catch((err) => { console.log(err) })
-		applynotify();
+		toast.success("Applied successfully");
 	}
-
-	const handleChange = async (e) => {
-		setAssignJobTitle(e.target.value);
-	}
-
-	// Bar chart
-
-	const data = {
-		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-		datasets: [
-			{
-				label: 'My First dataset',
-				backgroundColor: 'rgba(255,99,132,0.2)',
-				borderColor: 'rgba(255,99,132,1)',
-				borderWidth: 1,
-				hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-				hoverBorderColor: 'rgba(255,99,132,1)',
-				data: [65, 59, 80, 81, 56, 55, 40]
-			}
-		]
-	};
-
 
 	const jobDetailsTablecolumns = [
 		{
@@ -169,68 +144,67 @@ const Candidates = () => {
 
 	return !loading ? (
 		<div>
-			<div className="container">
-				<Row>
-					<Col>
-						<Card className="card-statss">
-							<Card.Body>
-								<Row>
-									<Col xs="5">
-										<div className="icon-big text-center icon-warning">
-											<FcBullish size={70} />
-										</div>
-									</Col>
-									<Col xs="7">
-										<div className="numbers">
-											<p></p>
-											<Card.Title as="h4">{totalJobs}</Card.Title>
-										</div>
-									</Col>
-								</Row>
-							</Card.Body>
-							<Card.Footer>
-								<div className="stats">
-									<i className="fas fa-redo mr-1"></i>
-                  					Total Job openings
-                			</div>
-							</Card.Footer>
-						</Card>
-						<Card className="mt-4">
-							<Card.Body>
-								<Row>
-									<Col xs="5">
-										<div className="icon-big text-center icon-warning">
-											<BsFillHeartFill size={70} />
-										</div>
-									</Col>
-									<Col xs="7">
-										<div className="numbers">
-											<p></p>
-											<Card.Title as="h4">10K+</Card.Title>
-										</div>
-									</Col>
-								</Row>
-							</Card.Body>
-							<Card.Footer>
-								<div className="stats">
-									<i className="fas fa-redo mr-1"></i>
-                  					Satisfied clients
-                			</div>
-							</Card.Footer>
-						</Card>
-					</Col>
-					<Col >
-						<ReactTable
-							data={jobs}
-							columns={jobDetailsTablecolumns}
-							className='candidateReactTable'
-							sortable={true}
-							defaultPageSize={5}
-							resizable={false}
-							showPageSizeOptions={false}
-						/>
-					</Col>
-				</Row>
+
+			<div className="container-fluid">
+				<div className="d-inline-flex p-2 bd-highlight">
+					<Card className="candidatesVacanyCard">
+						<Card.Body>
+							<div className="d-flex flex-row bd-highlight mb-3">
+								<div className="p-2 bd-highlight">
+									<div className="icon-big text-center icon-warning">
+										<FcBullish size={70} />
+									</div>
+								</div>
+								<div className="p-2 bd-highlight">
+									<p></p>
+									<Card.Title as="h2">{totalJobs}</Card.Title>
+								</div>
+							</div>
+						</Card.Body>
+						<Card.Footer>
+							<div className="stats">
+								<i className="fas fa-redo mr-1"></i>
+                				Total Job openings
+            			</div>
+						</Card.Footer>
+					</Card>
+				</div>
+
+				<div className="d-inline-flex p-2 bd-highlight">
+					<Card className="candidatesClientCard">
+						<Card.Body>
+							<div className="d-flex flex-row bd-highlight mb-3">
+								<div className="p-2 bd-highlight">
+									<div className="icon-big text-center icon-warning">
+										<BsFillHeartFill size={70} />
+									</div>
+								</div>
+								<div className="p-2 bd-highlight">
+									<p></p>
+									<Card.Title as="h4">10K+</Card.Title>
+								</div>
+							</div>
+						</Card.Body>
+						<Card.Footer>
+							<div className="stats">
+								<i className="fas fa-redo mr-1"></i>
+                					Satisfied clients
+        					</div>
+						</Card.Footer>
+					</Card>
+				</div>
+
+				<div className="d-inline-flex p-2 bd-highlight">
+					<ReactTable
+						data={jobs}
+						columns={jobDetailsTablecolumns}
+						className='-striped -highlight candidateReactTable'
+						sortable={true}
+						defaultPageSize={5}
+						resizable={false}
+						showPageSizeOptions={false}
+					/>
+				</div>
 			</div>
 			<ToastContainer />
 		</div>

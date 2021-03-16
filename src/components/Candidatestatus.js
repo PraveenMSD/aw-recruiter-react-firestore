@@ -16,6 +16,7 @@ const Candidatestatus = () => {
     const [loading, setLoading] = useState(true)
     const [userRole, setuserRole] = useState("");
 
+
     useEffect(() => {
         getCandidates();
         getUserRole();
@@ -26,7 +27,6 @@ const Candidatestatus = () => {
             .doc(currentLoggedUser?.uid)
             .get()
             .then((document) => {
-                console.log(document.data().role)
                 setuserRole(document.data()?.role)
             })
     }
@@ -46,7 +46,6 @@ const Candidatestatus = () => {
                     };
                     fetchedCandidates.push(fetchedCandidate);
                 });
-                //(currentLoggedUser?.email === "hrjack@awr.com")) ? fetchedCandidates : setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email)));
                 if (currentLoggedUser == null || currentLoggedUser?.email === "hrjack@awr.com") {
                     setCandidate(fetchedCandidates)
                 }
@@ -54,11 +53,8 @@ const Candidatestatus = () => {
                     setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.interviewer == capUserName)));
                 }
                 setLoading(false)
-                //setCandidate(fetchedCandidates.filter(email => (email.useremail === currentLoggedUser?.email) || (email.useremail =="hrjack@awr.com") ));
             })
     }
-
-    console.log(appliedCandidates)
 
     // Export Candidate status to PDF
     const exportPDF = () => {
@@ -101,9 +97,6 @@ const Candidatestatus = () => {
     const prettyLink = {
         color: 'white'
     };
-
-
-    console.log(appliedCandidates)
 
     const appliedCandidatescolumns = [
         {
@@ -173,7 +166,6 @@ const Candidatestatus = () => {
                     ) : (
                         ""
                     )}
-                    {/* <button className="btn btn-info exportPDFBtn" onClick={() => exportPDF()}>Generate Report</button> */}
                 </div>
 
                 <div className="p-2 bd-highlight">
@@ -181,7 +173,7 @@ const Candidatestatus = () => {
                         <button className="btn btn-info exportCSVBtn">
                             <CSVLink data={data} headers={headers} style={prettyLink}>
                                 Generate CSV
-                                            </CSVLink>
+                            </CSVLink>
                         </button>
                     ) : (
                         ""
@@ -193,7 +185,7 @@ const Candidatestatus = () => {
                     <ReactTable
                         data={appliedCandidates}
                         columns={appliedCandidatescolumns}
-                        className='statusCandidateReactTable'
+                        className='-striped -highlight statusCandidateReactTable'
                         sortable={true}
                         defaultPageSize={5}
                         resizable={false}

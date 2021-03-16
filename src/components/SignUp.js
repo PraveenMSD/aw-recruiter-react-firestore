@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../providers/UserProvider'
 import { auth, firestore } from '../firebase/config'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUp = () => {
 
 	const { setCurrentUser } = useContext(UserContext);
+	const history = useHistory();
 
 	let [name, setName] = useState('');
 	let [email, setEmail] = useState('');
@@ -18,9 +20,11 @@ const SignUp = () => {
 		// 	firestore.collection('users').doc(userAuth.user.uid).set({ name })
 		// 		.then(() => {
 		// 			setCurrentUser({ name, email })
+		// 			history.push("/profile")
 		// 		})
 		// })
-		alert("Please contact admin to create user with roles. Write to 'praveenrk189@gmail.com'")
+		toast.warning("Please contact admin to create user with roles. Write to 'praveenrk189@gmail.com'");
+		// alert("Please contact admin to create user with roles. Write to 'praveenrk189@gmail.com'")
 	}
 
 	const handleChange = (e) => {
@@ -39,15 +43,12 @@ const SignUp = () => {
 				<h1 className="text-center">Sign up</h1>
 				<form onSubmit={(e) => handleSubmit(e, name, email, password)}>
 					<div className="form-group">
-						<label htmlFor="name-sign-up">Name</label>
 						<input onChange={handleChange} className="form-control" type="text" id="name-sign-up" name="name-sign-up" placeholder="Enter Your Name" />
 					</div>
 					<div className="form-group">
-						<label htmlFor="email-sign-up">Email</label>
 						<input onChange={handleChange} className="form-control" type="email" id="email-sign-up" name="email-sign-up" placeholder="Enter Your Email" />
 					</div>
 					<div className="form-group">
-						<label htmlFor="password-sign-up">Password</label>
 						<input onChange={handleChange} className="form-control" type="password" id="password-sign-up" name="password-sign-up" placeholder="Enter Your Password" />
 					</div>
 					<div className="form-group">
@@ -60,6 +61,7 @@ const SignUp = () => {
 					</div>
 				</form>
 			</div>
+			<ToastContainer />
 		</div>
 	)
 }

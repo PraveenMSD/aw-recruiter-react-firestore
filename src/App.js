@@ -19,7 +19,6 @@ import 'react-toolbox/lib/table';
 import { auth, firestore } from './firebase/config';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
-import StickyFooter from 'react-sticky-footer';
 
 
 function App(props) {
@@ -28,25 +27,24 @@ function App(props) {
 
   const history = useHistory();
 
-
-
   useEffect(() => {
+      getUserRole();
+  }, [])
+
+  const getUserRole = () => {
     auth.onAuthStateChanged((user) => {
       firestore.collection('users')
         .doc(user.uid)
         .get()
         .then(user => {
           setCurrentUser({
-            email: user.data().email,
             name: user.data().name,
             userRole: user.data().role,
           })
         })
     })
-  }, [])
+  }
 
-
-  console.log(currentUser)
 
 
   return (
@@ -55,51 +53,24 @@ function App(props) {
         <UserProvider>
           <Header />
           <br /><br />
-          {/* {jsx} */}
-            <Route exact path="/" component={Login} />
-            <Route exact path="/dashboard" render={() => (currentUser?.userRole === "hr" ? (<Dashboard />) : (<Redirect to="/profile" />))} />
-            {/* <Route exact path="/login" component={Login}/> */}
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/admin" component={Admin} />
-            <Route exact path="/recruiter" render={() => (currentUser?.userRole === "hr" ? (<Recruiter />) : (<Redirect to="/profile" />))} />
-            {/* <Route exact path="/interviewer" component={Interviewer}/> */}
-            <Route exact path="/interviewer" render={() => (currentUser?.userRole === "interviewer" || "hr" ? (<Interviewer />) : (<Redirect to="/profile" />))} />
-            <Route exact path="/candidates" render={() => (currentUser?.userRole === "candidate" || "hr" ? (<Candidates />) : (<Redirect to="/profile" />))} />
-            <Route exact path="/candidatestatus" render={() => (currentUser?.userRole === "candidate" || "hr" ? (<Candidatestatus />) : (<Redirect to="/profile" />))} />
-            <Route exact path="/assigncandidates" render={() => (currentUser?.userRole === "hr" ? (<Assigncandidates />) : (<Redirect to="/profile" />))} />
-            <Route exact path="/profile" component={Profile} />
+          <Route exact path="/" component={Login} />
+          {/* <Route exact path="/dashboard" render={() => (currentUser?.userRole === "hr" ? (<Dashboard />) : (<Redirect to="/profile" />))} /> */}
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/recruiter" render={() => (currentUser?.userRole === "hr" ? (<Recruiter />) : (<Redirect to="/profile" />))} />
+          <Route exact path="/interviewer" render={() => (currentUser?.userRole === "interviewer" || "hr" ? (<Interviewer />) : (<Redirect to="/profile" />))} />
+          <Route exact path="/candidates" render={() => (currentUser?.userRole === "candidate" || "hr" ? (<Candidates />) : (<Redirect to="/profile" />))} />
+          <Route exact path="/candidatestatus" render={() => (currentUser?.userRole === "candidate" || "hr" ? (<Candidatestatus />) : (<Redirect to="/profile" />))} />
+          <Route exact path="/assigncandidates" render={() => (currentUser?.userRole === "hr" ? (<Assigncandidates />) : (<Redirect to="/profile" />))} />
+          <Route exact path="/profile" component={Profile} />
           <div className="footer">
             <Footer />
           </div>
         </UserProvider>
       </BrowserRouter>
     </div>
-  );
-
-  // return (
-  //   <BrowserRouter>
-  //     <UserProvider>
-  //       <Header/>
-  //       <br/><br/>
-  //       {/* {jsx} */}
-  //       <div>
-  //     <Route exact path="/" component={Login}/>
-  //     <Route exact path="/dashboard" component={Dashboard} />
-  //     {/* <Route exact path="/login" component={Login}/> */}
-  //     <Route exact path="/signup" component={SignUp}/>
-  //     <Route exact path="/admin" component={Admin}/>
-  //     <Route exact path="/recruiter" component={Recruiter}/>
-  //     {/* <Route exact path="/interviewer" component={Interviewer}/> */}
-  //     <Route exact path="/interviewer" component={Interviewer}/>
-  //     <Route exact path="/candidates" component={Candidates}/>
-  //     <Route exact path="/candidatestatus" component={Candidatestatus}/>
-  //     <Route exact path="/assigncandidates" component={Assigncandidates}/>
-  //     <Route exact path="/profile" component={Profile} />
-  //   </div>
-  //       <Footer />
-  //     </UserProvider>  
-  //   </BrowserRouter>
-  // );
+  )
 }
 
 export default App;

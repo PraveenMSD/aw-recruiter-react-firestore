@@ -140,8 +140,8 @@ a{
 }
 
 .candidateReactTable {
-  left: 30px;
-  top: 0px;
+  left: -90px;
+  top: -27px;
   width: 100%;
 }
 
@@ -243,6 +243,19 @@ a{
 .addJobBtn {
   position: relative;
   right: 34px;
+}
+
+.candidatesVacanyCard {
+  top: 20px !important;
+  left: 115px !important;
+  height: 170px !important;
+  width: 200px !important;
+}
+
+.candidatesClientCard {
+  top: 215px !important;
+  left: -100px !important;
+  height: 170px !important;
 }
 
 /* .exportPDFBtn {

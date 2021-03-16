@@ -39,7 +39,7 @@ const LoggedInLinks = () => {
     }
 
     const getUserRole = () => {
-        firestore.collection('users').doc(currentUser.uid).get()
+        firestore.collection('users').doc(currentUser?.uid).get()
             .then(response => {
                 setUserRole(response.data().role)
             })

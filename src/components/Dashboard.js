@@ -33,11 +33,9 @@ const Dashboard = () => {
 				snapshot.docs.forEach(doc => {
 					var item = doc.data();
 					var jobtitle = item.jobtitle;
-					// labelssArray.push(jobtitle);
 					setlabelsArray(prevState => ([...prevState, item.jobtitle]));
 
 					var jobVacancy = item.totalopenings;
-					// dataaArray.push(jobVacancy);
 
 					setdataArray(prevStatee => ([...prevStatee, item.totalopenings]))
 					setTotalJob(prevState => prevState + parseInt(item.totalopenings))
@@ -96,8 +94,8 @@ const Dashboard = () => {
 					<Card.Footer>
 						<div className="stats">
 							<i className="fas fa-redo mr-1"></i>
-                Total Job openings
-            </div>
+                				Total Job openings
+            			</div>
 					</Card.Footer>
 				</Card>
 			</div>
@@ -120,8 +118,8 @@ const Dashboard = () => {
 					<Card.Footer>
 						<div className="stats">
 							<i className="fas fa-redo mr-1"></i>
-                Assigned candidates
-            </div>
+                				Assigned candidates
+        				</div>
 					</Card.Footer>
 				</Card>
 			</div>

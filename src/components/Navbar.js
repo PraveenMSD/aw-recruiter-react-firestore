@@ -15,10 +15,9 @@ const Header = () => {
     const userName = currentUser ? currentUser.email : "";
     const title = "Applicant Tracking"
 
-    // if(loading) {
     return (
         <Navbar bg="light" expand="lg" variant="light">
-            <Navbar.Brand href="#home">Awesome Recruiter</Navbar.Brand>
+            <Navbar.Brand href="/">Awesome Recruiter</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto navLinks">
@@ -27,7 +26,6 @@ const Header = () => {
             </Navbar.Collapse>
         </Navbar>
     )
-    // }
 }
 
 export default Header

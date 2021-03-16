@@ -164,7 +164,6 @@ const Assigncandidates = () => {
         <ReactTable
           data={appliedCandidates}
           columns={appliedCandidatescolumns}
-          // className='assignCandidateReactTable'
           sortable={true}
           defaultPageSize={5}
           className="-striped -highlight assignCandidateReactTable"

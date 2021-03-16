@@ -48,8 +48,6 @@ const Interviewer = () => {
                                     <option id="selectedValue" name="selectedValue" value="Selected"  >Selected</option>
                                     <option id="selectedValue" name="selectedValue" value="Rejected"  >Rejected</option>
                                     <option id="selectedValue" name="selectedValue" value="On-Hold"  >On-Hold</option>
-                                    {/* <option id="selectedValue" name="selectedValue" >{options.value}</option> */}
-                                    {/* <option id="selectedValue" name="selectedValue" value="Selected"  selected={document.data().status ? document.data().status : "Selected"}>Selected</option> */}
                                 </select>
                             </div>
                         ),
@@ -57,7 +55,6 @@ const Interviewer = () => {
                     fetchedCandidates.push(fetchedCandidate);
                 });
                 setCandidate(fetchedCandidates);
-                // .filter(user => user.online == true);
                 setCandidate(fetchedCandidates.filter(int => int.interviewer === capUserName));
                 setLoading(false)
             })
