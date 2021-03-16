@@ -20,7 +20,6 @@ import Candidates from "./components/Candidates";
 import Candidatestatus from "./components/Candidatestatus";
 import { UserContext } from "./providers/UserProvider";
 import { UserProvider } from "./providers/UserProvider";
-import "react-toolbox/lib/table";
 import { auth, firestore } from "./firebase/config";
 import Dashboard from "./components/Dashboard";
 import Profile from "./components/Profile";

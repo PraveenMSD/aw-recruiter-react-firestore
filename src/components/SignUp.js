@@ -39,10 +39,10 @@ const SignUp = () => {
 
   return (
     <div className="component">
-      <div className="loginsignup-form">
+      <div className="shadow p-3 mb-5 bg-white rounded loginsignup-form">
         <h1 className="text-center">Sign up</h1>
         <form onSubmit={(e) => handleSubmit(e, name, email, password)}>
-          <div className="form-group">
+          <div className="form-group my-4">
             <input
               onChange={handleChange}
               className="form-control"
@@ -52,7 +52,7 @@ const SignUp = () => {
               placeholder="Enter Your Name"
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-4">
             <input
               onChange={handleChange}
               className="form-control"
@@ -62,7 +62,7 @@ const SignUp = () => {
               placeholder="Enter Your Email"
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-4">
             <input
               onChange={handleChange}
               className="form-control"
@@ -72,7 +72,7 @@ const SignUp = () => {
               placeholder="Enter Your Password"
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-4">
             <button className="btn btn-success">Sign up</button>
           </div>
           <div className="form-group">

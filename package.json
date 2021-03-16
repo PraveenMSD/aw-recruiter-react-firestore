@@ -28,7 +28,6 @@
     "react-sticky-footer": "0.1.0-rc3",
     "react-table-6": "^6.11.0",
     "react-toastify": "^7.0.3",
-    "react-toolbox": "^2.0.0-beta.13",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

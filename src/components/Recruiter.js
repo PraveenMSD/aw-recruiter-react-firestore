@@ -138,7 +138,7 @@ const Recruiter = () => {
                 <option
                   id="selectedValue"
                   name="selectedValue"
-                  value="Please select"
+                  value=""
                 >
                   Please select...
                 </option>

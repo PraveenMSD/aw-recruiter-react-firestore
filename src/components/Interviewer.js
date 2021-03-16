@@ -29,7 +29,7 @@ const Interviewer = () => {
           selectedstatus: document.data().status,
           select: (
             <div className="text-center h-6">
-              <select onClick={(e) => handleChange(e, document.id)}>
+              <select onChange={(e) => handleChange(e, document.id)}>
                 <option
                   id="selectedValue"
                   name="selectedValue"

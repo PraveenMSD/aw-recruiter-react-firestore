@@ -30,7 +30,7 @@ const Assigncandidates = () => {
           openings: document.data().jobAssignTitle,
           assignedTo: document.data().interviewer,
           select: (
-            <select onClick={(e) => handleChange(e, document.id)}>
+            <select onChange={(e) => handleChange(e, document.id)}>
               {fetchedUsers.length !== 0 &&
                 fetchedUsers.map((data) => (
                   <option
