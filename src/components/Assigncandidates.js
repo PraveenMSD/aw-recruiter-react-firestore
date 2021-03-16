@@ -1,34 +1,33 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { firestore } from '../firebase/config';
+import React, { useContext, useState, useEffect } from "react";
+import { firestore } from "../firebase/config";
 import ReactTable from "react-table-6";
-import 'react-table-6/react-table.css';
-import { UserContext } from '../providers/UserProvider'
-import { ToastContainer, toast } from 'react-toastify';
+import "react-table-6/react-table.css";
+import { UserContext } from "../providers/UserProvider";
+import { ToastContainer, toast } from "react-toastify";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { FcBullish, BsFillHeartFill } from "react-icons/all";
-import { Ring } from 'react-spinners-css';
+import { Ring } from "react-spinners-css";
 
 const Assigncandidates = () => {
-
   const [appliedCandidates, setCandidate] = useState([]);
   const { currentUser } = useContext(UserContext);
-  var userEmail = currentUser?.email || '';
-  var value = 'initial'
+  var userEmail = currentUser?.email || "";
+  var value = "initial";
   const totalInterviewer = [];
   const notify = () => toast.success("Interviewer assigned successfully");
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getInterviewer();
   }, []);
 
-
-
   const getCandidates = (fetchedUsers) => {
-    firestore.collection('candidates').get()
-      .then(response => {
+    firestore
+      .collection("candidates")
+      .get()
+      .then((response) => {
         const fetchedCandidates = [];
-        response.docs.forEach(document => {
+        response.docs.forEach((document) => {
           const fetchedCandidate = {
             id: document.id,
             email: document.data().userEmail,
@@ -37,35 +36,38 @@ const Assigncandidates = () => {
             assignedTo: document.data().interviewer,
             select: (
               <select onClick={(e) => handleChange(e, document.id)}>
-                {fetchedUsers.length !== 0 && fetchedUsers.map((data) => (
-                  <option
-                    id="selectedValue"
-                    name="selectedValue"
-                    value={data.name}
-                    selected={document.data().interviewer === data.name}
-                  >
-                    {data.name}
-                  </option>)
-                )}
+                {fetchedUsers.length !== 0 &&
+                  fetchedUsers.map((data) => (
+                    <option
+                      id="selectedValue"
+                      name="selectedValue"
+                      value={data.name}
+                      selected={document.data().interviewer === data.name}
+                    >
+                      {data.name}
+                    </option>
+                  ))}
               </select>
             ),
           };
-          totalInterviewer.push(document.data().interviewer)
+          totalInterviewer.push(document.data().interviewer);
           fetchedCandidates.push(fetchedCandidate);
         });
 
         setCandidate(fetchedCandidates);
 
-        setLoading(false)
-      })
-  }
-
+        setLoading(false);
+      });
+  };
 
   const getInterviewer = () => {
-    firestore.collection('users').where('role', '==', "interviewer").get()
-      .then(response => {
+    firestore
+      .collection("users")
+      .where("role", "==", "interviewer")
+      .get()
+      .then((response) => {
         const fetchedUsers = [];
-        response.docs.forEach(document => {
+        response.docs.forEach((document) => {
           const fetchedUser = {
             id: document.id,
             name: document.data().name,
@@ -74,64 +76,62 @@ const Assigncandidates = () => {
           fetchedUsers.push(fetchedUser);
         });
         getCandidates(fetchedUsers);
-      })
-  }
-
+      });
+  };
 
   const handleChange = async (e, id) => {
-    firestore.collection('candidates')
+    firestore
+      .collection("candidates")
       .doc(id)
       .update({ interviewer: e.target.value })
-      .then((data) => { console.log(data) })
-      .catch((err) => { console.log(err) })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     notify();
-  }
+  };
 
   const appliedCandidatescolumns = [
     {
       Header: () => (
-        <div className="text-center font-weight-bold">
-          Candidate Name
-        </div>
+        <div className="text-center font-weight-bold">Candidate Name</div>
       ),
-      accessor: 'candidateName',
-      className: 'font',
+      accessor: "candidateName",
+      className: "font",
       width: 200,
-      Cell: row => <div className="text-center h-4">{(row.value).split("@")[0]}</div>,
+      Cell: (row) => (
+        <div className="text-center h-4">{row.value.split("@")[0]}</div>
+      ),
     },
     {
       Header: () => (
-        <div className="text-center font-weight-bold">
-          Candidate email
-        </div>
+        <div className="text-center font-weight-bold">Candidate email</div>
       ),
-      accessor: 'email',
-      className: 'font',
+      accessor: "email",
+      className: "font",
       width: 250,
-      Cell: row => <div className="text-center h-4">{row.value}</div>,
+      Cell: (row) => <div className="text-center h-4">{row.value}</div>,
     },
     {
       Header: () => (
-        <div className="text-center font-weight-bold">
-          Applied position
-        </div>
+        <div className="text-center font-weight-bold">Applied position</div>
       ),
-      accessor: 'openings',
-      className: 'font',
+      accessor: "openings",
+      className: "font",
       width: 200,
-      Cell: row => <div className="text-center h-6">{row.value}</div>,
+      Cell: (row) => <div className="text-center h-6">{row.value}</div>,
     },
     {
       Header: () => (
-        <div className="text-center font-weight-bold">
-          Assign To
-        </div>
+        <div className="text-center font-weight-bold">Assign To</div>
       ),
-      accessor: 'select',
-      className: 'font',
+      accessor: "select",
+      className: "font",
       width: 200,
-      Cell: row => <div className="text-center h-6">{row.value}</div>,
-    }
+      Cell: (row) => <div className="text-center h-6">{row.value}</div>,
+    },
   ];
 
   return !loading ? (
@@ -154,7 +154,7 @@ const Assigncandidates = () => {
           <Card.Footer>
             <div className="stats">
               <i className="fas fa-redo mr-1"></i>
-                Assigned candidates
+              Assigned candidates
             </div>
           </Card.Footer>
         </Card>
@@ -172,10 +172,12 @@ const Assigncandidates = () => {
         />
         <ToastContainer />
       </div>
-    </div >
+    </div>
   ) : (
-    <span><Ring color="gray" size={100} /></span>
-  )
-}
+    <span>
+      <Ring color="gray" size={100} />
+    </span>
+  );
+};
 
-export default Assigncandidates
+export default Assigncandidates;
