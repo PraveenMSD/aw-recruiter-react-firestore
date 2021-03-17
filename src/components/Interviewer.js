@@ -121,7 +121,7 @@ const Interviewer = () => {
       Cell: (row) => (
         <div
           className="text-center h-6"
-          style={{ background: row.value === "Selected" ? "green" : "red" }}
+          style={{ color: row.value === "Selected" ? "green" : "red"}}
         >
           {row.value}
         </div>
