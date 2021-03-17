@@ -4,6 +4,7 @@ import { Pie } from "react-chartjs-2";
 import { Card } from "react-bootstrap";
 import { FcBullish } from "react-icons/all";
 import { Ring } from "react-spinners-css";
+import Interviewercount from "../shared/Interviewercount";
 
 const Dashboard = () => {
   const [labelsArray, setlabelsArray] = useState([]);
@@ -124,7 +125,7 @@ const Dashboard = () => {
               </div>
               <div className="p-2 bd-highlight">
                 <p></p>
-                <Card.Title as="h2">2</Card.Title>
+                <Card.Title as="h2"><Interviewercount /></Card.Title>
               </div>
             </div>
           </Card.Body>

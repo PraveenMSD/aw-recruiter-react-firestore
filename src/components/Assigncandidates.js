@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Card } from "react-bootstrap";
 import { FcBullish } from "react-icons/all";
 import { Ring } from "react-spinners-css";
+import Interviewercount from "../shared/Interviewercount";
 
 const Assigncandidates = () => {
   const [appliedCandidates, setCandidate] = useState([]);
@@ -151,7 +152,7 @@ const Assigncandidates = () => {
               </div>
               <div class="p-2 bd-highlight">
                 <p></p>
-                <Card.Title as="h2">2</Card.Title>
+                <Card.Title as="h2"><Interviewercount /></Card.Title>
               </div>
             </div>
           </Card.Body>

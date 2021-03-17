@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { firestore } from "../firebase/config";
+import Interviewercount from "../shared/Interviewercount";
 
 const Home = () => {
+  console.log("Interviewr Count",Interviewercount())
   return (
     <div className="container jumbotron">
       <h1 class="display-4">Hello,</h1>
