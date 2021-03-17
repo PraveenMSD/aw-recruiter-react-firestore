@@ -16,6 +16,7 @@
 >>>>>>> f529c56847973a3de37e9f66a91d6ac6c183de98
 
 # misc
+.env
 .DS_Store
 .env.local
 .env.development.local
